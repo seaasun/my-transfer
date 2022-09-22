@@ -1,8 +1,11 @@
 import { ethers} from "ethers";
+import { snapshot } from "valtio";
+import { senderState } from "../stores/sender";
 
 const createProvide = async () => {
+  const sender = snapshot(senderState)
   const provider = new ethers.providers.JsonRpcProvider(
-    "https://rpc.ankr.com/eth_rinkeby"
+    sender.chainRPC
   );
 
   return provider

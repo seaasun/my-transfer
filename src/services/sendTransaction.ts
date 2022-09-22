@@ -3,18 +3,6 @@ import { snapshot } from "valtio";
 import { senderState } from "../stores/sender";
 import { setTransaction } from "../stores/transaction";
 
-const privateKey =
-  "c6f25f9f4bc1ee724dd08a53cc27a90918d3a88e9d892e9e44c4a123d8f8a8bf";
-
-const createProvide = async () => {
-  const provider = new ethers.providers.JsonRpcProvider(
-    "https://rpc.ankr.com/eth_rinkeby"
-  );
-
-  return provider
-}
-
-
 type SendTransaction = {
   provider: ethers.providers.JsonRpcProvider,
   to: string,
@@ -37,7 +25,7 @@ const sendTransaction = async ({provider, to, value, nonce, feeData}: SendTransa
     // chainId: 42, // Ethereum network id
   };
   
-  const wallet = new ethers.Wallet(privateKey);
+  const wallet = new ethers.Wallet(sender.privateKey);
   const walletSigner = wallet.connect(provider);
   const result =1 // = await walletSigner.sendTransaction(tx);
   

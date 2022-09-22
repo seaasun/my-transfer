@@ -8,6 +8,7 @@ import { etherProviderState } from "../../stores/etherProvider"
 
 import { setSuccessModal } from "./SuccessModal"
 import { setErrorModal } from "./ErrorModal"
+import { openError } from "../ErrorModal"
 
 
 const usePay = () => {
@@ -35,11 +36,10 @@ const usePay = () => {
         setSuccessModal(sucessInfo => {
           sucessInfo.open = true
         })
-        
-      } catch (e) {
-        setErrorModal(errorInfo => {
-          errorInfo.open = true
-        })
+        throw new Error('hi')
+      } catch (error: unknown) {
+
+        openError(error)
       }
       
       setPaying(false)

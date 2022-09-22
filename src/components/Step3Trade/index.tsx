@@ -1,8 +1,10 @@
 import { Button, Input, Link } from "@nextui-org/react";
+import { useCallback, useState } from "react";
 import { useSnapshot } from "valtio";
 import { etherProviderState } from "../../stores/etherProvider";
 import { resetSender, senderState, setSender } from "../../stores/sender";
 import { transactionState } from "../../stores/transaction";
+import ChainSwitch from "./ChainSwitch";
 import ErrorModal from "./ErrorModal";
 import SuccessModal from "./SuccessModal";
 import useEtherProvide from "./useEtherProvide";
@@ -20,9 +22,19 @@ const Step3Trade = () => {
     resetSender()
   }
 
+  const [showChain, setShowChain] = useState(true)
+  const handleShowChain = useCallback(()=> {
+    setShowChain(true)
+  }, [])
+
+  if (showChain) {
+    return <ChainSwitch setShowChain = {setShowChain}/>
+  }
+  
+
   return (
     <div>
-      <div>节点</div>
+      <div onClick = {handleShowChain}>节点</div>
       <div>
         <Input label="价格" labelRight="ETH" value={transaction.value} />
       </div>
@@ -44,7 +56,6 @@ const Step3Trade = () => {
       </Button>
 
       <SuccessModal />
-      <ErrorModal />
     </div>
   );
 };
