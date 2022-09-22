@@ -1,0 +1,46 @@
+// https://www.quicknode.com/guides/web3-sdks/how-to-send-an-eip-1559-transaction
+require("log-timestamp");
+const ethers = require("ethers");
+
+const privateKey = ("ADD_YOUR_PRIVATE_KEY_HERE").toString('hex');
+const wallet = new ethers.Wallet(privateKey);
+
+const address = wallet.address;
+console.log("Public Address:", address);
+
+const httpsUrl = "ADD_YOUR_HTTP_URL_HERE";
+console.log("HTTPS Target", httpsUrl);
+
+const init = async function () {
+  const httpsProvider = new ethers.providers.JsonRpcProvider(httpsurl);
+
+  let nonce = await httpsProvider.getTransactionCount(address);
+  console.log("Nonce:", nonce);
+
+  let feeData = await httpsProvider.getFeeData();
+  console.log("Fee Data:", feeData);
+
+  const tx = {
+    type: 2,
+    nonce: nonce,
+    to: "0x8D97689C9818892B700e27F316cc3E41e17fBeb9", // Address to send to
+    maxPriorityFeePerGas: feeData["maxPriorityFeePerGas"], // Recommended maxPriorityFeePerGas
+    maxFeePerGas: feeData["maxFeePerGas"], // Recommended maxFeePerGas
+    value: ethers.utils.parseEther("0.01"), // .01 ETH
+    gasLimit: "21000", // basic transaction costs exactly 21000
+    chainId: 42, // Ethereum network id
+  };
+  console.log("Transaction Data:", tx);
+
+  const signedTx = await wallet.signTransaction(tx);
+  console.log("Signed Transaction:", signedTx);
+
+  const txHash = ethers.utils.keccak256(signedTx);
+  console.log("Precomputed txHash:", txHash);
+  console.log(`https://kovan.etherscan.io/tx/${txHash}`);
+
+  httpsProvider.sendTransaction(signedTx).then(console.log);
+
+};
+
+init();
