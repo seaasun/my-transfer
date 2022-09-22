@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { snapshot } from "valtio";
-import { senderState } from "../stores/serder";
+import { senderState } from "../stores/sender";
+import { setTransaction } from "../stores/transaction";
 
 const privateKey =
   "c6f25f9f4bc1ee724dd08a53cc27a90918d3a88e9d892e9e44c4a123d8f8a8bf";
@@ -18,7 +19,7 @@ type SendTransaction = {
   provider: ethers.providers.JsonRpcProvider,
   to: string,
   value: number,
-  nonce: number,
+  nonce: string,
   feeData: ethers.providers.FeeData
 }
 
@@ -29,7 +30,7 @@ const sendTransaction = async ({provider, to, value, nonce, feeData}: SendTransa
     to,
     value: ethers.utils.parseEther(`${value}`),
     type: 2,
-    nonce,
+    nonce: parseInt(nonce),
     maxPriorityFeePerGas: feeData.maxPriorityFeePerGas, // Recommended maxPriorityFeePerGas
     maxFeePerGas: feeData.maxFeePerGas, // Recommended maxFeePerGas
     gasLimit: "21000", // basic transaction costs exactly 21000
@@ -38,7 +39,20 @@ const sendTransaction = async ({provider, to, value, nonce, feeData}: SendTransa
   
   const wallet = new ethers.Wallet(privateKey);
   const walletSigner = wallet.connect(provider);
-  const result = await walletSigner.sendTransaction(tx);
+  const result =1 // = await walletSigner.sendTransaction(tx);
+  
+  // 重置nonce
+  setTransaction(transaction => {
+    transaction.nonce = ''
+    transaction.defaultNonce = transaction.defaultNonce + 1
+  })
+  provider.getTransactionCount(sender.publicKey, "latest").then(nonce => {
+    setTransaction(transaction => {
+      transaction.defaultNonce = nonce
+    })
+  })
+
+
   return result
   
 }

@@ -64,7 +64,6 @@ export const createProvider3 = async () => {
 };
 
 export const createProvider2 = async () => {
-  console.log(441);
   const provider = new ethers.providers.JsonRpcProvider(
     "https://rpc.ankr.com/eth_rinkeby"
   );

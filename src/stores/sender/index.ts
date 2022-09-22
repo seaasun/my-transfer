@@ -14,19 +14,25 @@ type Sender = {
   isTest: boolean
 }
 
-
-
-export const senderState = proxy<Sender>({
+const defaultValue: Sender = {
   monic: '',
   privateKey: '',
   publicKey: '',
   chain: '',
   status: SENDER_STATUS.HELLO,
   isTest: false,
-})
+}
+
+export const senderState = proxy<Sender>(defaultValue)
 
 
 export const setSender = (fn: (senderState: Sender) => void) => {
   fn(senderState)
+}
+
+export const resetSender = () => {
+  Object.keys(defaultValue).map((key: string) => {
+    Object.assign(senderState, defaultValue)
+  })
 }
 

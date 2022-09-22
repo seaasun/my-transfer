@@ -5,11 +5,13 @@ import Step1Hello from './components/Step1Hello';
 import Step2Memo from './components/Step2Memo';
 import Step3Trade from './components/Step3Trade';
 import { start } from './services/test';
-import { senderState, SENDER_STATUS } from './stores/serder';
+import useOnSwitch from './services/useOnSwitch';
+import { senderState, SENDER_STATUS } from './stores/sender';
 
 
 function App() {
   const sender = useSnapshot(senderState)
+  useOnSwitch()
   return (
     <div>
       {sender.status === SENDER_STATUS.HELLO && <Step1Hello />}

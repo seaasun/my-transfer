@@ -1,8 +1,10 @@
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, Link } from "@nextui-org/react";
 import { useSnapshot } from "valtio";
 import { etherProviderState } from "../../stores/etherProvider";
-import { senderState } from "../../stores/serder";
+import { resetSender, senderState, setSender } from "../../stores/sender";
 import { transactionState } from "../../stores/transaction";
+import ErrorModal from "./ErrorModal";
+import SuccessModal from "./SuccessModal";
 import useEtherProvide from "./useEtherProvide";
 import usePay from "./usePay";
 
@@ -14,6 +16,9 @@ const Step3Trade = () => {
   const transaction = useSnapshot(transactionState);
 
   const [handlePay, paying] = usePay();
+  const changeSender = () => {
+    resetSender()
+  }
 
   return (
     <div>
@@ -22,7 +27,9 @@ const Step3Trade = () => {
         <Input label="价格" labelRight="ETH" value={transaction.value} />
       </div>
       <div>
-        <Input label="发送人" value={sender.publicKey} />
+        <div><span>发送人<span onClick = {changeSender}>修改</span></span></div>
+        <Input value={sender.publicKey} disabled aria-label= "发送人"/>
+        
       </div>
       <div>
         <Input label="接收人" value={transaction.to} />
@@ -35,6 +42,9 @@ const Step3Trade = () => {
         {!etherProviderLoading && !paying && '立即交易'}
         {!etherProviderLoading && paying && '交易中'}
       </Button>
+
+      <SuccessModal />
+      <ErrorModal />
     </div>
   );
 };

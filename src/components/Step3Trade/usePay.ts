@@ -1,11 +1,13 @@
 import { useCallback, useState } from "react"
 import { snapshot } from "valtio"
 import sendTransaction from "../../services/sendTransaction"
-import { senderState } from "../../stores/serder"
+import { senderState } from "../../stores/sender"
 import { transactionState } from "../../stores/transaction"
 import {ethers} from 'ethers'
 import { etherProviderState } from "../../stores/etherProvider"
-import { createProvider3 } from "../../services/provider"
+
+import { setSuccessModal } from "./SuccessModal"
+import { setErrorModal } from "./ErrorModal"
 
 
 const usePay = () => {
@@ -20,16 +22,27 @@ const usePay = () => {
       setPaying(true)
       const transaction =  snapshot(transactionState)
       
-
-      const feeData = await provider.getFeeData();
-      const result = await sendTransaction({
-        provider: (provider as unknown as ethers.providers.JsonRpcProvider),
-        value: transaction.value,
-        to: transaction.to,
-        nonce: transaction.nonce ?? transaction.defaultNonce,
-        feeData: feeData
-      })
-      setPaying(true)
+      try {
+        const feeData = await provider.getFeeData();
+        const result = await sendTransaction({
+          provider: (provider as unknown as ethers.providers.JsonRpcProvider),
+          value: transaction.value,
+          to: transaction.to,
+          nonce: transaction.nonce ?? transaction.defaultNonce,
+          feeData: feeData
+        })
+        
+        setSuccessModal(sucessInfo => {
+          sucessInfo.open = true
+        })
+        
+      } catch (e) {
+        setErrorModal(errorInfo => {
+          errorInfo.open = true
+        })
+      }
+      
+      setPaying(false)
     }
     fn()
     

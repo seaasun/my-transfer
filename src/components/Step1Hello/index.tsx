@@ -1,6 +1,6 @@
 import { Button } from "@nextui-org/react"
 import { useCallback } from "react"
-import { SENDER_STATUS, setSender } from "../../stores/serder"
+import { SENDER_STATUS, setSender } from "../../stores/sender"
 
 const Step1Hello = () => {
   const handleNext = useCallback(() => {
