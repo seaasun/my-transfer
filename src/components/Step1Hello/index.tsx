@@ -20,7 +20,7 @@ const Step1Hello = () => {
 
   const handleWeb3Next = useCallback(() => {
     if (!window.ethereum) {
-      openError(new Error('缺少ethereum环境,请安装MetaMaster插件'))
+      openError(new Error('缺少ethereum环境,请安装MetaMask插件'))
     }
 
     const provider = new ethers.providers.Web3Provider(window.ethereum)
@@ -43,7 +43,7 @@ const Step1Hello = () => {
   return <Box css={{width: '100%'}}>
     <Text h1 css={{fontSize: 48}}>快转</Text>
     <Text>使用EIP-1559进行转账</Text>
-    <Text>可同步添加、切换、监听MetaMaster网络</Text>
+    <Text>可同步添加、切换、监听MetaMask网络</Text>
     <Text>Power by React, TS, ethers, valtio, NextUI</Text>
     <Link href="https://github.com/seaasun/my-transfer" target="_blank">Github</Link>
     <Spacer y={8} />
@@ -57,7 +57,7 @@ const Step1Hello = () => {
       onPress = {handleWeb3Next} 
       size="lg"
       css = {btnCSS}  
-    >通过MetaMaster交易</Button>
+    >通过MetaMask交易</Button>
   </Box>
 }
 
