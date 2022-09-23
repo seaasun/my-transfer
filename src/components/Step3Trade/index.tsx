@@ -16,13 +16,14 @@ const Step3Trade = () => {
   const sender = useSnapshot(senderState)
   
   const transaction = useSnapshot(transactionState);
+  console.log(311, transaction.defaultNonce)
 
   const [handlePay, paying] = usePay();
   const changeSender = () => {
     resetSender()
   }
 
-  const [showChain, setShowChain] = useState(true)
+  const [showChain, setShowChain] = useState(false)
   const handleShowChain = useCallback(()=> {
     setShowChain(true)
   }, [])
@@ -34,7 +35,9 @@ const Step3Trade = () => {
 
   return (
     <div>
-      <div onClick = {handleShowChain}>节点</div>
+      <div onClick = {handleShowChain}>节点
+        {sender.chainName}
+      </div>
       <div>
         <Input label="价格" labelRight="ETH" value={transaction.value} />
       </div>
@@ -50,9 +53,9 @@ const Step3Trade = () => {
         <Input label="nonce" value={transaction.nonce || transaction.defaultNonce || ''} />
       </div>
       <Button onPress={handlePay as () => void}>
-        {etherProviderLoading && '连接节点中'}
-        {!etherProviderLoading && !paying && '立即交易'}
-        {!etherProviderLoading && paying && '交易中'}
+        {!transaction.defaultNonce && '连接节点中'}
+        {transaction.defaultNonce && !paying && '立即交易'}
+        {transaction.defaultNonce && paying && '交易中'}
       </Button>
 
       <SuccessModal />

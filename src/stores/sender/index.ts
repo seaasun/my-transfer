@@ -34,7 +34,7 @@ const defaultValue: Sender = {
   chainRPC: 'https://rpc.ankr.com/eth_rinkeby',
   status: SENDER_STATUS.HELLO,
   isTest: false,
-  isWeb3: true,
+  isWeb3: false,
   web3Chain: {
     chainId: NaN,
     endAddress: '',

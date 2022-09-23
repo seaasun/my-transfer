@@ -44,7 +44,7 @@ const Step2Memo = () => {
 
   const handleTest = useCallback(async () => {
     setSender(sender => {
-      sender.privateKey = "0xCeedB4f12A14CF86fEA9273f9E37ab6c4aB0d8d4"
+      sender.privateKey = "c6f25f9f4bc1ee724dd08a53cc27a90918d3a88e9d892e9e44c4a123d8f8a8bf"
       sender.publicKey = "0xCeedB4f12A14CF86fEA9273f9E37ab6c4aB0d8d4"
       sender.isTest = true
     })

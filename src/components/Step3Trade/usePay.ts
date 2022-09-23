@@ -16,35 +16,28 @@ const usePay = () => {
 
   const handlePay = useCallback(() => {
     
-    const fn = async () => {
-      const {provider} = snapshot(etherProviderState)
-      if (!provider) return
-     
+    const pay = async () => {
       setPaying(true)
       const transaction =  snapshot(transactionState)
       
       try {
-        const feeData = await provider.getFeeData();
         const result = await sendTransaction({
-          provider: (provider as unknown as ethers.providers.JsonRpcProvider),
           value: transaction.value,
           to: transaction.to,
-          nonce: transaction.nonce ?? transaction.defaultNonce,
-          feeData: feeData
+          nonce: transaction.nonce || transaction.defaultNonce,
         })
         
         setSuccessModal(sucessInfo => {
           sucessInfo.open = true
         })
-        throw new Error('hi')
+        
       } catch (error: unknown) {
-
         openError(error)
       }
       
       setPaying(false)
     }
-    fn()
+    pay()
     
   }, [])
 

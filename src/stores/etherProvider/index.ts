@@ -11,7 +11,12 @@ export const etherProviderState = proxy<EtherProviderState>({
   loading: true
 })
 
-export const setEtherProvider = (provider: ethers.providers.JsonRpcProvider) => {
-  etherProviderState.provider = ref(provider)
+export const setEtherProvider = (provider: ethers.providers.JsonRpcProvider | undefined) => {
+  if (provider) {
+    etherProviderState.provider = ref(provider)
+  } else {
+    etherProviderState.provider = undefined
+  }
+ 
   etherProviderState.loading = !provider
 }

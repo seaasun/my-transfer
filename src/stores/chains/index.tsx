@@ -27,7 +27,7 @@ export const chainStats = proxy<Chain[]> ([
   {
     chainId: 5,
     chainName: 'goerli',
-    rpcUrls: ['https://goerli.infura.io/v3/'],
+    rpcUrls: ['https://rpc.ankr.com/eth_goerli'],
     nativeCurrency: {
       name: 'goerli Ether',
       symbol: 'ETH',

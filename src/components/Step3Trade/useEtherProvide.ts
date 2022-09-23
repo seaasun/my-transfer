@@ -1,29 +1,34 @@
 import { ethers } from "ethers";
 
 import { useEffect, useRef, useState } from "react"
-import { ref, snapshot } from "valtio";
+import { ref, snapshot, useSnapshot } from "valtio";
 import createProvide from "../../services/createProvide"
 import { setEtherProvider } from "../../stores/etherProvider";
 import { senderState } from "../../stores/sender";
 import { setTransaction } from "../../stores/transaction";
 
 const useEtherProvider = () => {
-  
+  const sender = useSnapshot(senderState)
   useEffect(() => {
-    const fn = async () => {
-      
-      const provider = await createProvide()
-      const sender = snapshot(senderState)
-      console.log(441, sender.publicKey, sender.privateKey)
+    const rpcProcess = async () => { 
+      const provider = new ethers.providers.JsonRpcProvider(
+        sender.chainRPC
+      );
+      setTransaction(transaction => {
+        transaction.nonce = ''
+        transaction.defaultNonce = ''
+      })
       const nonce = await provider.getTransactionCount(sender.publicKey, "latest");
       setEtherProvider(provider)
       setTransaction(transaction => {
-        transaction.nonce = `${nonce}`
+        transaction.defaultNonce = `${nonce}`
       })
     }
-    
-    fn()
-  }, [])
+    if (!sender.isWeb3) {
+      rpcProcess()
+    } 
+  }, [sender.chainRPC, sender.isWeb3, sender.publicKey])
+
 }
 
 
