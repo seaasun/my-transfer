@@ -20,7 +20,7 @@ const useEtherProvider = () => {
           transaction.nonce = ''
           transaction.defaultNonce = ''
         })
-        const nonce = await provider.getTransactionCount(sender.publicKey, "latest");
+        const nonce = await provider.getTransactionCount(sender.address, "latest");
         setEtherProvider(provider)
         setTransaction(transaction => {
           transaction.defaultNonce = `${nonce}`
@@ -34,7 +34,7 @@ const useEtherProvider = () => {
     if (!sender.isWeb3) {
       rpcProcess()
     } 
-  }, [sender.chainRPC, sender.isWeb3, sender.publicKey])
+  }, [sender.chainRPC, sender.isWeb3, sender.address])
 
 }
 

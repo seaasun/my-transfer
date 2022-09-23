@@ -33,8 +33,8 @@ function App() {
           <HoldMetaMaskModal />
           <ErrorModal />
           {sender.status === SENDER_STATUS.HELLO && <Step1Hello />}
-          {sender.status === SENDER_STATUS.TRADE && !sender.publicKey && <Step2Memo /> }
-          {sender.status === SENDER_STATUS.TRADE && sender.publicKey && <Step3Trade /> }
+          {sender.status === SENDER_STATUS.TRADE && !sender.address && <Step2Memo /> }
+          {sender.status === SENDER_STATUS.TRADE && sender.address && <Step3Trade /> }
           <Spacer y={2} />
         </Box>
       </Box>

@@ -1,7 +1,7 @@
 import { Button, Input, Link, Text, Grid, Spacer } from "@nextui-org/react";
 import produce from "immer";
 import { memo, useCallback, useState } from "react";
-import getSenderKey from "../../services/getSenderKey";
+import getPivateKeyAndAddress from "../../services/getPivateKeyAndAddress";
 import { resetSender, setSender } from "../../stores/sender";
 import { restTransactionState } from "../../stores/transaction";
 import { openError } from "../ErrorModal";
@@ -49,13 +49,11 @@ const Step2Memo = () => {
   }, []);
 
   const handleNextStep = useCallback(async () => {
-    console.log(552,monics)
-    const { privateKey, publicKey } = getSenderKey(monics);
-    console.log(551, privateKey, publicKey)
+    const { privateKey, address } = getPivateKeyAndAddress(monics);
     if (privateKey) {
       setSender((sender) => {
         sender.privateKey = privateKey;
-        sender.publicKey = publicKey;
+        sender.address = address;
       });
     } else {
       openError(new Error('不正确的助记词，请重试'))
@@ -66,7 +64,7 @@ const Step2Memo = () => {
     setSender((sender) => {
       sender.privateKey =
         "c6f25f9f4bc1ee724dd08a53cc27a90918d3a88e9d892e9e44c4a123d8f8a8bf";
-      sender.publicKey = "0xCeedB4f12A14CF86fEA9273f9E37ab6c4aB0d8d4";
+      sender.address = "0xCeedB4f12A14CF86fEA9273f9E37ab6c4aB0d8d4";
       sender.isTest = true;
     });
   }, []);

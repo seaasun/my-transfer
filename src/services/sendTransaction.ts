@@ -21,7 +21,7 @@ const sendRpcTransaction = async ({to, value, nonce}: SendTransaction) => {
   
   const feeData = await provider.getFeeData();
   const tx: any = {
-    from: sender.publicKey,
+    from: sender.address,
     to,
     value: ethers.utils.parseEther(`${value}`),
     type: 2,
@@ -39,7 +39,7 @@ const sendRpcTransaction = async ({to, value, nonce}: SendTransaction) => {
   result = await walletSigner.sendTransaction(tx);
   
   
-  provider.getTransactionCount(sender.publicKey, "latest").then((nonce: number) => {
+  provider.getTransactionCount(sender.address, "latest").then((nonce: number) => {
     setTransaction(transaction => {
       transaction.defaultNonce = `${nonce}`
     })

@@ -13,7 +13,7 @@ type Web3Chain = {
 type Sender = {
   monic: string,
   privateKey: string,
-  publicKey: string,
+  address: string,
   chainId: number,
   chainName: string,
   chainRPC: string,
@@ -28,7 +28,7 @@ type Sender = {
 const defaultValue: Sender = {
   monic: '',
   privateKey: '',
-  publicKey: '',
+  address: '',
   chainId: 4,
   chainName: 'Rinkeby',
   chainRPC: 'https://rpc.ankr.com/eth_rinkeby',

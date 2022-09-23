@@ -88,7 +88,7 @@ const Step3Trade = () => {
       </div>
       <Spacer y={1} />
       <div>
-        <Input label="发送人" value={sender.publicKey} disabled css={inputCSS}/>
+        <Input label="发送人" value={sender.address} disabled css={inputCSS}/>
       </div>
       <Spacer y={1} />
       <div>

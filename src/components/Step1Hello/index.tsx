@@ -33,7 +33,7 @@ const Step1Hello = () => {
       setSender((sender) => {
       sender.status = SENDER_STATUS.TRADE
       sender.isWeb3 = true
-      sender.publicKey = window.ethereum.selectedAddress
+      sender.address = window.ethereum.selectedAddress
     })
     }).catch(error => {
       openError(error)

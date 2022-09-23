@@ -1,8 +1,8 @@
 import { ethers } from "ethers";
 
-const getPivateKey: (monics: string[]) => {
+const getPivateKeyAndAddress: (monics: string[]) => {
   privateKey: string;
-  publicKey: string;
+  address: string;
 } = (monics: string[]) => {
 
   const monic = monics.join(" ");
@@ -12,14 +12,14 @@ const getPivateKey: (monics: string[]) => {
     
     return {
       privateKey: mnemonic.privateKey,
-      publicKey: mnemonic.address,
+      address: mnemonic.address,
     };
   } catch {
     return {
       privateKey: "",
-      publicKey: "",
+      address: "",
     };
   }
 };
 
-export default getPivateKey;
+export default getPivateKeyAndAddress;
