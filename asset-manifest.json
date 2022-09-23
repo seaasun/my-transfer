@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/my-transfer/static/js/main.d5dd2d25.js",
+    "main.js": "/my-transfer/static/js/main.613d3da2.js",
     "static/js/787.d47047f3.chunk.js": "/my-transfer/static/js/787.d47047f3.chunk.js",
     "index.html": "/my-transfer/index.html",
-    "main.d5dd2d25.js.map": "/my-transfer/static/js/main.d5dd2d25.js.map",
+    "main.613d3da2.js.map": "/my-transfer/static/js/main.613d3da2.js.map",
     "787.d47047f3.chunk.js.map": "/my-transfer/static/js/787.d47047f3.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.d5dd2d25.js"
+    "static/js/main.613d3da2.js"
   ]
 }
