@@ -1,7 +1,6 @@
 import { Button, Input, Spacer, Text, Card, Loading } from "@nextui-org/react";
 import { useCallback, useMemo, useState } from "react";
 import { useSnapshot } from "valtio";
-import { etherProviderState } from "../../stores/etherProvider";
 import { resetSender, senderState } from "../../stores/sender";
 import { restTransactionState, setTransaction, transactionState } from "../../stores/transaction";
 import { validNumber, validNumberRequire, validStringRequire } from "../../utils/valid";

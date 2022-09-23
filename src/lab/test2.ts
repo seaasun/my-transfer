@@ -2,7 +2,6 @@ import { ethers } from "ethers";
 
 const send = async () => {
   const ethereum = window.ethereum
-  console.log(441, window.ethereum.selectedAddress, ethers.utils.parseEther('0.00001'))
   const transactionParameters = {
     nonce: '0x00', // ignored by MetaMask
     to: '0x24bE8580A9c1a611BD67ed376fEe1803168806d9', // Required except during contract publications.
@@ -23,21 +22,11 @@ const send = async () => {
       'latest'
     ],
   })
-  console.log(991, nonce)
   return
   
   // txHash is a hex string
   // As with any RPC call, it may throw an error
-  try {
-    console.log(551)
-    const txHash = await ethereum.request({
-      method: 'eth_sendTransaction',
-      params: [transactionParameters],
-    });
-    console.log(321, txHash)
-  } catch (e) {
-    console.log(4449)
-  }
+ 
 }
 
 const send2 = async () => {

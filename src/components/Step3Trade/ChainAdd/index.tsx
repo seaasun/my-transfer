@@ -1,11 +1,7 @@
 import { Button, Input, Loading, Spacer, Text } from "@nextui-org/react";
 import { useCallback, useMemo, useState } from "react";
-import { snapshot } from "valtio";
-import { FlatChain, pushChain } from "../../../stores/chains";
-import { senderState } from "../../../stores/sender";
+import { FlatChain } from "../../../stores/chains";
 import { validNumberRequire, validStringRequire } from "../../../utils/valid";
-import { openError } from "../../ErrorModal";
-import { closeHoldMetaMask, openHoldMetaMask } from "../../HoldMetaMaskModal";
 import useHandleAdd from "./useHandlAdd";
 
 const inputCSS = {

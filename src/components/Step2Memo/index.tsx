@@ -1,4 +1,4 @@
-import { Button, Input, Link, Text, Grid, Spacer } from "@nextui-org/react";
+import { Button, Input, Text, Grid, Spacer } from "@nextui-org/react";
 import produce from "immer";
 import { memo, useCallback, useState } from "react";
 import getPivateKeyAndAddress from "../../services/getPivateKeyAndAddress";

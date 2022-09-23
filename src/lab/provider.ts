@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ethers, Wallet } from "ethers";
 
 const contractAddress = "0x6A9865aDE2B6207dAAC49f8bCba9705dEB0B0e6D"; // DAI
@@ -70,6 +71,7 @@ export const createProvider2 = async () => {
   // const address = await walletSigner.getChainId()
   // const balance = await walletSigner.getBalance()
   // const balance: any = await provider.getBalance(toAddress)
+  // console.log(parseInt(balance))
 
   const gasPriceCurrent: any = await provider.getGasPrice();
   const gasPrice = ethers.utils.hexlify(parseInt(gasPriceCurrent));
