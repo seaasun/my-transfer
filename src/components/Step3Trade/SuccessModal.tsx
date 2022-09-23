@@ -26,7 +26,7 @@ const SuccessModal = () => {
       successInfo.result = '';
     });
   }, []);
-  console.log(991, successInfo.result)
+
   return (
     <Modal open={successInfo.open} onClose={handleClose}>
       <Modal.Header>

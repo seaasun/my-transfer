@@ -1,4 +1,4 @@
-import { Button, Text, Spacer } from "@nextui-org/react"
+import { Button, Text, Spacer, Link } from "@nextui-org/react"
 import { useCallback } from "react"
 import { SENDER_STATUS, setSender } from "../../stores/sender"
 import { openError } from "../ErrorModal"
@@ -45,7 +45,7 @@ const Step1Hello = () => {
     <Text>使用EIP-1559进行转账</Text>
     <Text>可同步添加、切换、监听MetaMaster网络</Text>
     <Text>Power by React, TS, ethers, valtio, NextUI</Text>
-    <Text>Github</Text>
+    <Link href="https://github.com/seaasun/my-transfer" target="_blank">Github</Link>
     <Spacer y={8} />
     <Button 
       onPress = {handleRPCNext} 

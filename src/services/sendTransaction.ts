@@ -76,7 +76,6 @@ const sendWeb3Transaction = async ({to, value, nonce}:SendWeb3Transaction ) => {
       type: '0x2',
       gasLimit: "21000"
   }
-  console.log(tx)
 
   openHoldMetaMask()
   result = await ethereum.request({

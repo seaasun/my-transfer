@@ -105,9 +105,9 @@ const Step2Memo = () => {
         返回首页
       </Button>
       <Spacer y={1} />
-      <Link onClick={handleTest} css={{ cursor: "pointer" }}>
-        使用测试账户, 跳过助记词（不可修改交易金额）。
-      </Link>
+      <Button onPress={handleTest} light auto color="primary" css={{paddingLeft: 0}}>
+        使用测试账户（不可修改交易金额）
+      </Button>
     </div>
   );
 };

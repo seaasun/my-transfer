@@ -67,7 +67,7 @@ const Step3Trade = () => {
       <Spacer y={1} />
       <div>
         <Text>网路</Text>
-        <Card isPressable isHoverable onClick={handleShowChain}>
+        <Card isPressable isHoverable onPress={handleShowChain}>
           <Card.Body>
           {sender.chainName}
           </Card.Body>
@@ -114,7 +114,7 @@ const Step3Trade = () => {
       <Button 
         size='lg'
         onPress={handlePay as () => void}
-        disabled = {isValidDisable || !transaction.defaultNonce}
+        disabled = {isValidDisable || !transaction.defaultNonce || paying}
         css={{
           width: '100%'
         }}
@@ -122,7 +122,7 @@ const Step3Trade = () => {
         {!transaction.defaultNonce && "连接节点中"}
         {transaction.defaultNonce && !paying && "立即交易"}
         {transaction.defaultNonce && paying && "交易中"}
-        {(!transaction.defaultNonce || paying) && <Loading color="currentColor" size="sm" />}
+        {(!transaction.defaultNonce || paying) && <Loading color="currentColor" size="sm" css={{padding: 16}}/>}
       </Button>
       <Spacer y={1}/>
       <Button 

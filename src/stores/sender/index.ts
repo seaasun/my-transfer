@@ -50,8 +50,6 @@ export const setSender = (fn: (senderState: Sender) => void) => {
 }
 
 export const resetSender = () => {
-  Object.keys(defaultValue).map((key: string) => {
-    Object.assign(senderState, defaultValue)
-  })
+  Object.assign(senderState, defaultValue)
 }
 

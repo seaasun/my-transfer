@@ -104,7 +104,7 @@ const ChainSwitch = ({setShowChain}: TChainSwitch) => {
   return <div>
     <Text h1>选择合适的网路</Text>
     <Text>或者, 
-      <Link css= {{cursor: 'pointer'}} onClick={openAdd}>添加新节点</Link>
+      <Link css= {{cursor: 'pointer'}} onPress={openAdd}>添加新节点</Link>
     </Text>
     <Spacer y={2} />
     
@@ -115,7 +115,7 @@ const ChainSwitch = ({setShowChain}: TChainSwitch) => {
       width: '100%',
       backgroundColor: '$blue50',
       color: '$primary'
-    }} onClick = {handleClose}>
+    }} onPress = {handleClose}>
       返回
     </Button>
 

@@ -51,6 +51,7 @@ export const pushChain = (chain: FlatChain) => {
     if (item.chainId === parseInt(chain.chainId)) {
       return true
     }
+    return false
   })
 
   if (!hasThisChain) {

@@ -1,5 +1,5 @@
 
-import { Spacer } from '@nextui-org/react';
+import { NextUIProvider, Spacer } from '@nextui-org/react';
 import { useSnapshot } from 'valtio';
 import Box from './components/Box';
 import ErrorModal from './components/ErrorModal';
@@ -8,14 +8,15 @@ import Step1Hello from './components/Step1Hello';
 import Step2Memo from './components/Step2Memo';
 import Step3Trade from './components/Step3Trade';
 import { createProvider } from './lab/provider';
-
 import useOnSwitch from './services/useOnSwitch';
 import { senderState, SENDER_STATUS } from './stores/sender';
+
 createProvider()
 function App() {
   const sender = useSnapshot(senderState)
   useOnSwitch()
   return (
+    <NextUIProvider>
     <Box css = {{
       display: 'flex',
       minHeight: '100vh',
@@ -47,6 +48,7 @@ function App() {
         backgroundSize: 'auto auto' 
       }}/>
     </Box>
+    </NextUIProvider>
   );
 }
 

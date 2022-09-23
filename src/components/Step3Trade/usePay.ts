@@ -7,11 +7,10 @@ import { setSuccessModal } from "./SuccessModal"
 
 import { openError } from "../ErrorModal"
 import { closeHoldMetaMask } from "../HoldMetaMaskModal"
-import { ethers } from "ethers"
 
 
-const usePay = () => {
-  const [Paying, setPaying] = useState(false)
+const usePay: () => [() => void, boolean] = () => {
+  const [paying, setPaying] = useState(false)
 
   const handlePay = useCallback(() => {
     
@@ -43,7 +42,7 @@ const usePay = () => {
     
   }, [])
 
-  return [handlePay, Paying]
+  return [handlePay, paying]
   
 }
 

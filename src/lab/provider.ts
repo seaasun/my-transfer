@@ -41,7 +41,6 @@ export const createProvider3 = async () => {
   );
   const nonce = await provider.getTransactionCount(sendAddress, "latest");
   const feeData = await provider.getFeeData();
-  console.log("feeData", feeData);
   const wallet = new ethers.Wallet(privateKey);
   const walletSigner = wallet.connect(provider);
   const tx: any = {
@@ -57,9 +56,7 @@ export const createProvider3 = async () => {
     // chainId: 42, // Ethereum network id
   };
 
-  console.log(311, tx);
   const result = await walletSigner.sendTransaction(tx);
-  console.log(49, result);
 };
 
 export const createProvider2 = async () => {
@@ -73,7 +70,6 @@ export const createProvider2 = async () => {
   // const address = await walletSigner.getChainId()
   // const balance = await walletSigner.getBalance()
   // const balance: any = await provider.getBalance(toAddress)
-  // console.log(parseInt(balance))
 
   const gasPriceCurrent: any = await provider.getGasPrice();
   const gasPrice = ethers.utils.hexlify(parseInt(gasPriceCurrent));
@@ -88,8 +84,6 @@ export const createProvider2 = async () => {
     gasPrice,
   };
 
-  console.log(311, tx);
 
   const result = await walletSigner.sendTransaction(tx);
-  console.dir(result);
 };
