@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { snapshot } from "valtio";
 import { openError } from "../components/ErrorModal";
+import { closeHoldMetaMask, openHoldMetaMask } from "../components/HoldMetaMaskModal";
 import { etherProviderState } from "../stores/etherProvider";
 import { senderState } from "../stores/sender";
 import { setTransaction } from "../stores/transaction";
@@ -33,8 +34,8 @@ const sendRpcTransaction = async ({to, value, nonce}: SendTransaction) => {
   
   const wallet = new ethers.Wallet(sender.privateKey);
   const walletSigner = wallet.connect(provider);
-  const b = await walletSigner.getBalance()
-  console.log(221, b)
+ 
+  
   result = await walletSigner.sendTransaction(tx);
   
   
@@ -74,12 +75,12 @@ const sendWeb3Transaction = async ({to, value, nonce}:SendWeb3Transaction ) => {
       type: '0x2',
       gasLimit: "21000"
   }
-  
+  openHoldMetaMask()
   result = await ethereum.request({
     method: 'eth_sendTransaction',
     params: [tx],
   });
-  
+  closeHoldMetaMask()
 
   ethereum.request({
     method: 'eth_getTransactionCount',

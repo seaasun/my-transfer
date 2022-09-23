@@ -1,4 +1,5 @@
-import { proxy } from "valtio";
+import { proxy, snapshot } from "valtio";
+import { openError } from "../../components/ErrorModal";
 
 type NativeCurrency = {
   name: string,
@@ -24,14 +25,45 @@ export const chainStats = proxy<Chain[]> ([
       decimals: 18
     }
   },
-  {
-    chainId: 5,
-    chainName: 'goerli',
-    rpcUrls: ['https://rpc.ankr.com/eth_goerli'],
-    nativeCurrency: {
-      name: 'goerli Ether',
-      symbol: 'ETH',
-      decimals: 18
-    }
-  }
+  // {
+  //   chainId: 5,
+  //   chainName: 'goerli',
+  //   rpcUrls: ['https://rpc.ankr.com/eth_goerli'],
+  //   nativeCurrency: {
+  //     name: 'goerli Ether',
+  //     symbol: 'ETH',
+  //     decimals: 18
+  //   }
+  // }
 ])
+
+type FlatChain = {
+  chainId: string,
+  chainName: string, 
+  rpcUrl: string,
+  symbol: string,
+  decimals: string,
+  currencyName: string,
+}
+export const pushChain = (chain: FlatChain) => {
+  const chains = snapshot(chainStats)
+  const hasThisChain = chains.some(item => {
+    if (item.chainId === parseInt(chain.chainId)) {
+      return true
+    }
+  })
+
+  if (!hasThisChain) {
+    chainStats.push({
+      chainId: parseInt(chain.chainId),
+      chainName: chain.chainName,
+      rpcUrls: [chain.rpcUrl],
+      nativeCurrency: {
+        name: chain.currencyName,
+        symbol: chain.symbol,
+        decimals: parseInt(chain.decimals)
+      }
+    })
+  } 
+
+}

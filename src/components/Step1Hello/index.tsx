@@ -3,6 +3,7 @@ import { useCallback } from "react"
 import { SENDER_STATUS, setSender } from "../../stores/sender"
 import { openError } from "../ErrorModal"
 import {ethers} from 'ethers'
+import { closeHoldMetaMask, openHoldMetaMask } from "../HoldMetaMaskModal"
 
 const Step1Hello = () => {
   const handleRPCNext = useCallback(() => {
@@ -19,7 +20,12 @@ const Step1Hello = () => {
     }
 
     const provider = new ethers.providers.Web3Provider(window.ethereum)
+    if (!window.ethereum.selectedAddress) {
+      openHoldMetaMask()
+    }
+    
     provider.send("eth_requestAccounts", []).then(() => {
+      closeHoldMetaMask()
       setSender((sender) => {
       sender.status = SENDER_STATUS.TRADE
       sender.isWeb3 = true
@@ -28,8 +34,6 @@ const Step1Hello = () => {
     }).catch(error => {
       openError(error)
     })
-
-    
   },[])
   
   return <div>

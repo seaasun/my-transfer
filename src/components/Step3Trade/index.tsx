@@ -1,11 +1,10 @@
-import { Button, Input, Link } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { useCallback, useState } from "react";
 import { useSnapshot } from "valtio";
 import { etherProviderState } from "../../stores/etherProvider";
-import { resetSender, senderState, setSender } from "../../stores/sender";
+import { resetSender, senderState } from "../../stores/sender";
 import { transactionState } from "../../stores/transaction";
 import ChainSwitch from "./ChainSwitch";
-import ErrorModal from "./ErrorModal";
 import SuccessModal from "./SuccessModal";
 import useEtherProvide from "./useEtherProvide";
 import usePay from "./usePay";

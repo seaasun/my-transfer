@@ -6,6 +6,7 @@ import { senderState, setSender } from "../../stores/sender"
 import {ethers} from 'ethers'
 import ChainAdd from "./ChainAdd"
 import { openError } from "../ErrorModal"
+import { closeHoldMetaMask, openHoldMetaMask } from "../HoldMetaMaskModal"
 
 type TChangeItem = {
   chain:Chain,
@@ -28,18 +29,21 @@ const ChainItem = ({chain, switching, setSwitching}: TChangeItem) => {
       }
       try {
         setSwitching(true)
+        openHoldMetaMask()
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
           params: [{
             chainId: `0x${Number(chain.chainId).toString(16)}`
           }]
         })
+        closeHoldMetaMask()
         setSender((sender) => {
           sender.chainId = chain.chainId
           sender.chainName = chain.chainName
           sender.chainRPC = ''
         })
       } catch (error: unknown){
+        closeHoldMetaMask()
         openError(error)
       }
       setSwitching(false)

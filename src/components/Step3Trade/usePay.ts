@@ -1,14 +1,12 @@
 import { useCallback, useState } from "react"
 import { snapshot } from "valtio"
 import sendTransaction from "../../services/sendTransaction"
-import { senderState } from "../../stores/sender"
 import { transactionState } from "../../stores/transaction"
-import {ethers} from 'ethers'
-import { etherProviderState } from "../../stores/etherProvider"
 
 import { setSuccessModal } from "./SuccessModal"
-import { setErrorModal } from "./ErrorModal"
+
 import { openError } from "../ErrorModal"
+import { closeHoldMetaMask } from "../HoldMetaMaskModal"
 
 
 const usePay = () => {
@@ -33,6 +31,7 @@ const usePay = () => {
         
       } catch (error: unknown) {
         openError(error)
+        closeHoldMetaMask()
       }
       
       setPaying(false)

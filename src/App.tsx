@@ -2,6 +2,7 @@
 import { Fragment, useEffect } from 'react';
 import { useSnapshot } from 'valtio';
 import ErrorModal from './components/ErrorModal';
+import HoldMetaMaskModal from './components/HoldMetaMaskModal';
 import Step1Hello from './components/Step1Hello';
 import Step2Memo from './components/Step2Memo';
 import Step3Trade from './components/Step3Trade';
@@ -15,6 +16,7 @@ function App() {
   useOnSwitch()
   return (
     <div>
+      <HoldMetaMaskModal />
       <ErrorModal />
       {sender.status === SENDER_STATUS.HELLO && <Step1Hello />}
       {sender.status === SENDER_STATUS.TRADE && !sender.publicKey && <Step2Memo /> }
