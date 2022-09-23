@@ -47,7 +47,7 @@ const sendRpcTransaction = async ({to, value, nonce}: SendTransaction) => {
     openError(error)
   })
 
-  return result
+  return result.hash
 }
 
 type SendWeb3Transaction = {
@@ -65,16 +65,19 @@ const sendWeb3Transaction = async ({to, value, nonce}:SendWeb3Transaction ) => {
   if (!feeData.maxPriorityFeePerGas) {
     return 
   }
-
+  const weiValue = ethers.utils.parseUnits(value.toString(), "ether")
+   
   const tx = {
       nonce: `0x${nonce}`, // ignored by MetaMask
       to: to, // Required except during contract publications.
       from: ethereum.selectedAddress, // must match user's active address.
-      value: `0x${Number(value * 1000000000).toString(16)}`, // Only required to send ether to the recipient from the initiating external account.
+      value: `0x${Number(weiValue).toString(16)}`, // Only required to send ether to the recipient from the initiating external account.
       // chainId: '0x3', // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
       type: '0x2',
       gasLimit: "21000"
   }
+  console.log(tx)
+
   openHoldMetaMask()
   result = await ethereum.request({
     method: 'eth_sendTransaction',

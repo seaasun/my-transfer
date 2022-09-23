@@ -33,7 +33,6 @@ export const createProvider = async () => {
   );
   const mnemonic  = ethers.Wallet.fromMnemonic(monic)
   var privateKey = mnemonic.privateKey;
-  console.log(311, privateKey)
 }
 
 export const createProvider3 = async () => {

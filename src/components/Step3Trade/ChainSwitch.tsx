@@ -1,4 +1,4 @@
-import { Button } from "@nextui-org/react"
+import { Button, Text, Link, Spacer, Card } from "@nextui-org/react"
 import { useCallback, useState } from "react"
 import { snapshot, useSnapshot } from "valtio"
 import { Chain, chainStats } from "../../stores/chains"
@@ -57,10 +57,21 @@ const ChainItem = ({chain, switching, setSwitching}: TChangeItem) => {
   }, [chain.chainId, chain.chainName, chain.rpcUrls, setSwitching, switching])
 
   const sender = useSnapshot(senderState)
-  return <div>
-    {chain.chainName}
-    <Button onPress = {handelChange} disabled = {sender.chainId === chain.chainId}>切换</Button>
-  </div>
+  return <Card css={{marginBottom: 32}}>
+    <Card.Body css= {{
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+    }}>
+    <div>{chain.chainName}</div>
+    <Button 
+      css={{minWidth: 'min-content', paddingLeft: 24, paddingRight: 24, marginRight: 24}}
+      size="sm"
+      onPress = {handelChange} 
+      disabled = {sender.chainId === chain.chainId}>
+        切换
+    </Button>
+    </Card.Body>
+  </Card>
 }
 
 type TChainSwitch = {
@@ -86,15 +97,29 @@ const ChainSwitch = ({setShowChain}: TChainSwitch) => {
   
   if (showAdd) {
     return <div>
-      <div onClick  = {closeAdd}>关闭</div>
       <ChainAdd closeAdd = {closeAdd}/>
     </div>
   }
 
   return <div>
-    <div onClick  = {openAdd}>添加新节点</div>
-    <div onClick = {handleClose}>关闭</div>
+    <Text h1>选择合适的网路</Text>
+    <Text>或者, 
+      <Link css= {{cursor: 'pointer'}} onClick={openAdd}>添加新节点</Link>
+    </Text>
+    <Spacer y={2} />
+    
     {chains.map((chain) => <ChainItem chain = {chain as Chain} key = {chain.chainId} switching ={switching} setSwitching = {setSwitching}/>)}
+    <Spacer y={2} />
+
+    <Button css={{
+      width: '100%',
+      backgroundColor: '$blue50',
+      color: '$primary'
+    }} onClick = {handleClose}>
+      返回
+    </Button>
+
+  
   </div>
 }
 

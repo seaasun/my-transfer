@@ -1,70 +1,117 @@
-import { Button, Input, Link } from "@nextui-org/react"
-import produce from "immer"
-import { memo, useCallback, useState } from "react"
-import getSenderKey from "../../services/getSenderKey"
-import { resetSender, setSender } from "../../stores/sender"
+import { Button, Input, Link, Text, Grid, Spacer } from "@nextui-org/react";
+import produce from "immer";
+import { memo, useCallback, useState } from "react";
+import getSenderKey from "../../services/getSenderKey";
+import { resetSender, setSender } from "../../stores/sender";
+import { restTransactionState } from "../../stores/transaction";
+import { openError } from "../ErrorModal";
 
-type Monics = string[]
+type Monics = string[];
 
 type IMonicInput = {
-  index: number,
-  setMonic: (index: number, value: string) => void,
-  value: string
-}
+  index: number;
+  setMonic: (index: number, value: string) => void;
+  value: string;
+};
 
-const MonicInput = memo(({index, value, setMonic}: IMonicInput) => {
-  const handleChange = useCallback((e: any) => {
-    setMonic(index, e.target.value)
-  }, [index, setMonic])
+const MonicInput = memo(({ index, value, setMonic }: IMonicInput) => {
+  const handleChange = useCallback(
+    (e: any) => {
+      setMonic(index, e.target.value);
+    },
+    [index, setMonic]
+  );
 
+  return (
+    <Grid xs={6}>
+      <Input
+        value={value}
+        onChange={handleChange}
+        aria-label="moni"
+        css={{ width: "100%" }}
+      />
+    </Grid>
+  );
+});
 
-  return <Input value = {value} onChange = {handleChange} aria-label = 'moni'/>
-})
-
+const buttonCSS = {
+  width: "100%",
+};
 const Step2Memo = () => {
-  const [monics, setMonics] = useState<Monics>(() => new Array(12).fill(''))
+  const [monics, setMonics] = useState<Monics>(() => new Array(12).fill(""));
   const setMonic = useCallback((index: number, value: string) => {
-    setMonics(monics => {
-      return produce(monics, draft => {
-        draft[index] = value
-      })
-    })
-  }, [])
+    setMonics((monics) => {
+      const result = produce(monics, (draft) => {
+        draft[index] = value;
+      });
+      return result;
+    });
+  }, []);
 
-  const handleNextStep = useCallback(async ()=> {
-    const {privateKey, publicKey} =  getSenderKey(monics)
+  const handleNextStep = useCallback(async () => {
+    console.log(552,monics)
+    const { privateKey, publicKey } = getSenderKey(monics);
+    console.log(551, privateKey, publicKey)
     if (privateKey) {
-      setSender(sender => {
-        sender.privateKey = privateKey
-        sender.publicKey = publicKey
-      })
+      setSender((sender) => {
+        sender.privateKey = privateKey;
+        sender.publicKey = publicKey;
+      });
+    } else {
+      openError(new Error('不正确的助记词，请重试'))
     }
-  }, [monics])
+  }, [monics]);
 
   const handleTest = useCallback(async () => {
-    setSender(sender => {
-      sender.privateKey = "c6f25f9f4bc1ee724dd08a53cc27a90918d3a88e9d892e9e44c4a123d8f8a8bf"
-      sender.publicKey = "0xCeedB4f12A14CF86fEA9273f9E37ab6c4aB0d8d4"
-      sender.isTest = true
-    })
+    setSender((sender) => {
+      sender.privateKey =
+        "c6f25f9f4bc1ee724dd08a53cc27a90918d3a88e9d892e9e44c4a123d8f8a8bf";
+      sender.publicKey = "0xCeedB4f12A14CF86fEA9273f9E37ab6c4aB0d8d4";
+      sender.isTest = true;
+    });
+  }, []);
+  const handleBack = useCallback(()=> {
+    resetSender()
+    restTransactionState()
   }, [])
-  
-  return <div>
-    输入助记词
+  return (
     <div>
-    {monics.map((monic: string, index: number) => 
-      <MonicInput index = {index} setMonic = {setMonic} value = {monic[index]} key = {index}/>
-    )
-    }
+      <Text h1>输入助记词</Text>
+      <Text>我们不会存储助记词, 敬请放心</Text>
+      <Spacer y={2} />
+      <Grid.Container gap={2} css={{ padding: 0 }}>
+        {monics.map((monic: string, index: number) => (
+          <MonicInput
+            index={index}
+            setMonic={setMonic}
+            value={monic}
+            key={index}
+          />
+        ))}
+      </Grid.Container>
+      <Spacer y={2} />
+      <Button onPress={handleNextStep} css={buttonCSS} size="lg">
+        最后一步
+      </Button>
+      <Spacer y={1} />
+      <Button
+        onPress={handleBack}
+        css={{
+          width: "100%",
+          backgroundColor: "$blue50",
+          color: "$primary",
+        }}
+        size="lg"
+        color="secondary"
+      >
+        返回首页
+      </Button>
+      <Spacer y={1} />
+      <Link onClick={handleTest} css={{ cursor: "pointer" }}>
+        使用测试账户, 跳过助记词（不可修改交易金额）。
+      </Link>
     </div>
-    <Button onPress = {handleNextStep}>
-      下一步
-    </Button>
-    <Button onPress = {resetSender}>
-      返回首页
-    </Button>
-    <Link onClick = {handleTest}>如果想测试</Link>
-  </div>
-}
+  );
+};
 
-export default Step2Memo
+export default Step2Memo;

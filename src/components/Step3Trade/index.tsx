@@ -1,14 +1,18 @@
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, Spacer, Text, Card, Loading } from "@nextui-org/react";
 import { useCallback, useMemo, useState } from "react";
 import { useSnapshot } from "valtio";
 import { etherProviderState } from "../../stores/etherProvider";
 import { resetSender, senderState } from "../../stores/sender";
-import { setTransaction, transactionState } from "../../stores/transaction";
+import { restTransactionState, setTransaction, transactionState } from "../../stores/transaction";
 import { validNumber, validNumberRequire, validStringRequire } from "../../utils/valid";
 import ChainSwitch from "./ChainSwitch";
 import SuccessModal from "./SuccessModal";
 import useEtherProvide from "./useEtherProvide";
 import usePay from "./usePay";
+
+const inputCSS = {
+  width: '100%'
+}
 
 const Step3Trade = () => {
   useEtherProvide();
@@ -47,20 +51,30 @@ const Step3Trade = () => {
     })
   }, [])
 
+  const handleBack = useCallback(()=> {
+    resetSender()
+    restTransactionState()
+  }, [])
+
   if (showSwitchChain) {
     return <ChainSwitch setShowChain={setShowSwitchChain} />;
   }
 
-  
-
-  
-  
   return (
     <div>
-      <div onClick={handleShowChain}>
-        节点
-        {sender.chainName}
+      <Text h1 >现在，输入必要的信息</Text>
+
+      <Spacer y={1} />
+      <div>
+        <Text>网路</Text>
+        <Card isPressable isHoverable onClick={handleShowChain}>
+          <Card.Body>
+          {sender.chainName}
+          </Card.Body>
+        </Card>
+        
       </div>
+      <Spacer y={1} />
       <div>
         <Input
           label="价格"
@@ -68,35 +82,59 @@ const Step3Trade = () => {
           {...vaildValue}
           onChange = {(event) => {setTransactionInput(event, 'value')}}
           value={transaction.value}
+          css={inputCSS}
+          disabled={sender.isTest}
         />
       </div>
+      <Spacer y={1} />
       <div>
-        <Input label="发送人" value={sender.publicKey} disabled />
+        <Input label="发送人" value={sender.publicKey} disabled css={inputCSS}/>
       </div>
+      <Spacer y={1} />
       <div>
         <Input 
           label="接收人" 
           {...vaildTo} 
           onChange = {(event) => {setTransactionInput(event, 'to')}}
-          value={transaction.to} />
+          value={transaction.to} 
+          css={inputCSS}
+        />
       </div>
+      <Spacer y={1} />
       <div>
         <Input
           label="nonce"
           {...vaildNonce}
           onChange = {(event) => {setTransactionInput(event, 'nonce')}}
           value={transaction.nonce || transaction.defaultNonce || ""}
+          css={inputCSS}
         />
       </div>
+      <Spacer y={2}/>
       <Button 
+        size='lg'
         onPress={handlePay as () => void}
-        disabled = {isValidDisable || !transaction.defaultNonce}>
+        disabled = {isValidDisable || !transaction.defaultNonce}
+        css={{
+          width: '100%'
+        }}
+      >
         {!transaction.defaultNonce && "连接节点中"}
         {transaction.defaultNonce && !paying && "立即交易"}
         {transaction.defaultNonce && paying && "交易中"}
+        {(!transaction.defaultNonce || paying) && <Loading color="currentColor" size="sm" />}
       </Button>
-      <Button onPress={resetSender}>返回首页</Button>
-
+      <Spacer y={1}/>
+      <Button 
+        size='lg'
+        onPress={handleBack}
+        css={{
+          width: '100%',
+          backgroundColor: '$blue50',
+          color: '$primary'
+        }}
+      >返回首页
+      </Button>
       <SuccessModal />
     </div>
   );

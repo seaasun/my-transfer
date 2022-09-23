@@ -7,6 +7,7 @@ import { setSuccessModal } from "./SuccessModal"
 
 import { openError } from "../ErrorModal"
 import { closeHoldMetaMask } from "../HoldMetaMaskModal"
+import { ethers } from "ethers"
 
 
 const usePay = () => {
@@ -25,11 +26,13 @@ const usePay = () => {
           nonce: transaction.nonce || transaction.defaultNonce,
         })
         
-        setSuccessModal(sucessInfo => {
-          sucessInfo.open = true
+        setSuccessModal(successInfo => {
+          successInfo.open = true
+          successInfo.result = result
         })
         
       } catch (error: unknown) {
+        
         openError(error)
         closeHoldMetaMask()
       }

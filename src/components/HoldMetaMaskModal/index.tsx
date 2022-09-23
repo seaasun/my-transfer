@@ -1,4 +1,4 @@
-import { Button, Modal } from "@nextui-org/react"
+import { Button, Modal, Text } from "@nextui-org/react"
 import { useCallback } from "react"
 import { proxy, useSnapshot } from "valtio"
 
@@ -38,7 +38,7 @@ const HoldMetaMaskModal = () => {
     onClose = {handleClose}
   >
     <Modal.Header>
-        请打卡MetaMask插件进行操作
+        <Text h1>请打卡MetaMask插件进行操作</Text>
     </Modal.Header>
     <Modal.Body>
       <Button onPress = {handleClose}>关闭</Button>  

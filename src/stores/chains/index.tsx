@@ -25,16 +25,16 @@ export const chainStats = proxy<Chain[]> ([
       decimals: 18
     }
   },
-  // {
-  //   chainId: 5,
-  //   chainName: 'goerli',
-  //   rpcUrls: ['https://rpc.ankr.com/eth_goerli'],
-  //   nativeCurrency: {
-  //     name: 'goerli Ether',
-  //     symbol: 'ETH',
-  //     decimals: 18
-  //   }
-  // }
+  {
+    chainId: 5,
+    chainName: 'goerli',
+    rpcUrls: ['https://rpc.ankr.com/eth_goerli'],
+    nativeCurrency: {
+      name: 'goerli Ether',
+      symbol: 'ETH',
+      decimals: 18
+    }
+  }
 ])
 
 export type FlatChain = {

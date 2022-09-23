@@ -1,4 +1,4 @@
-import { Button, Modal } from "@nextui-org/react"
+import { Button, Modal, Text } from "@nextui-org/react"
 import { useCallback } from "react"
 import { proxy, useSnapshot } from "valtio"
 
@@ -38,14 +38,16 @@ const ErrorModal = () => {
   }, [])
   
   return <Modal
+    closeButton
     open = {errorInfo.open}
     onClose = {handleClose}
   >
     <Modal.Header>
-        错误！
+        <Text h1>遇到点问题</Text>
     </Modal.Header>
     <Modal.Body>
-      {errorInfo.msg}
+      <Text>{errorInfo.msg}</Text>
+      
       <Button onPress = {handleClose}>关闭</Button>  
     </Modal.Body>
   </Modal>
