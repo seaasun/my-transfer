@@ -3,7 +3,6 @@ import { useCallback, useState } from "react"
 import { snapshot, useSnapshot } from "valtio"
 import { Chain, chainStats } from "../../stores/chains"
 import { senderState, setSender } from "../../stores/sender"
-import {ethers} from 'ethers'
 import ChainAdd from "./ChainAdd"
 import { openError } from "../ErrorModal"
 import { closeHoldMetaMask, openHoldMetaMask } from "../HoldMetaMaskModal"

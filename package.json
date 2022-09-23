@@ -1,6 +1,7 @@
 {
   "name": "my-transfer",
   "version": "0.1.0",
+  "homepage": "https://seaasun.github.io/my-transfer",
   "private": true,
   "dependencies": {
     "@nextui-org/react": "^1.0.0-beta.10",
@@ -12,6 +13,7 @@
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
     "ethers": "^5.7.1",
+    "gh-pages": "^4.0.0",
     "immer": "^9.0.15",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -24,7 +26,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
