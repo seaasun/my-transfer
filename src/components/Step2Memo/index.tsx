@@ -1,9 +1,8 @@
-import { Button, Input, Link, Loading } from "@nextui-org/react"
-import { type } from "@testing-library/user-event/dist/type"
+import { Button, Input, Link } from "@nextui-org/react"
 import produce from "immer"
 import { memo, useCallback, useState } from "react"
 import getSenderKey from "../../services/getSenderKey"
-import { setSender } from "../../stores/sender"
+import { resetSender, setSender } from "../../stores/sender"
 
 type Monics = string[]
 
@@ -61,7 +60,10 @@ const Step2Memo = () => {
     <Button onPress = {handleNextStep}>
       下一步
     </Button>
-    <Link onPress = {handleTest}>如果想测试</Link>
+    <Button onPress = {resetSender}>
+      返回首页
+    </Button>
+    <Link onClick = {handleTest}>如果想测试</Link>
   </div>
 }
 

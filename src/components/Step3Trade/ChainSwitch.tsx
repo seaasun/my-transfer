@@ -70,11 +70,29 @@ type TChainSwitch = {
 const ChainSwitch = ({setShowChain}: TChainSwitch) => {
   const chains = useSnapshot(chainStats)
   const [switching , setSwitching] = useState(false)
+  const [showAdd, setShowAdd] = useState(false)
+
   const handleClose = useCallback(() => {
     setShowChain(false)
   },[setShowChain])
+
+  const openAdd = useCallback(() => {
+    setShowAdd(true)
+  }, [])
+
+  const closeAdd = useCallback(() => {
+    setShowAdd(false)
+  }, [])
+  
+  if (showAdd) {
+    return <div>
+      <div onClick  = {closeAdd}>关闭</div>
+      <ChainAdd closeAdd = {closeAdd}/>
+    </div>
+  }
+
   return <div>
-    <ChainAdd />
+    <div onClick  = {openAdd}>添加新节点</div>
     <div onClick = {handleClose}>关闭</div>
     {chains.map((chain) => <ChainItem chain = {chain as Chain} key = {chain.chainId} switching ={switching} setSwitching = {setSwitching}/>)}
   </div>

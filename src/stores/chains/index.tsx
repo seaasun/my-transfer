@@ -37,7 +37,7 @@ export const chainStats = proxy<Chain[]> ([
   // }
 ])
 
-type FlatChain = {
+export type FlatChain = {
   chainId: string,
   chainName: string, 
   rpcUrl: string,
@@ -64,6 +64,10 @@ export const pushChain = (chain: FlatChain) => {
         decimals: parseInt(chain.decimals)
       }
     })
-  } 
+    return true
+  } else {
+    openError(new Error('已经添加'))
+    return false
+  }
 
 }

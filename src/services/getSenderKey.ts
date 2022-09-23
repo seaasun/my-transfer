@@ -4,12 +4,12 @@ const getPivateKey: (monics: string[]) => {
   privateKey: string;
   publicKey: string;
 } = (monics: string[]) => {
-  if (monics.some((item) => item === "")) {
-    return  {
-      privateKey: "",
-      publicKey: "",
-    };
-  }
+  // if (monics.some((item) => item === "")) {
+  //   return  {
+  //     privateKey: "",
+  //     publicKey: "",
+  //   };
+  // }
 
   const monic = monics.join(" ");
   try {

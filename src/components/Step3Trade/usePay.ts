@@ -20,7 +20,7 @@ const usePay = () => {
       
       try {
         const result = await sendTransaction({
-          value: transaction.value,
+          value: parseFloat(transaction.value),
           to: transaction.to,
           nonce: transaction.nonce || transaction.defaultNonce,
         })
