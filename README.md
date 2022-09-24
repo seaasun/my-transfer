@@ -1,5 +1,5 @@
 # 快转
-一个可以交易的DAPP，[预览](https://seaasun.github.io/my-transfer/)
+一个可以进行自定义交易的DAPP，[预览](https://seaasun.github.io/my-transfer/)
 
 ## 快速开始
 
