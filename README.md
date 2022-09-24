@@ -25,6 +25,7 @@ src
   |   |-Box             代替div，支持css in js
   |   |-ErrorModal      全局的错误弹窗
   |   |-...             略
+  |- constans           常量
   |- lab                测试、实验用的代码
   |- stroes             状态管理
   |   |- chains         网络

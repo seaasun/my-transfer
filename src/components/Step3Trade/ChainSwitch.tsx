@@ -26,9 +26,11 @@ const ChainItem = ({ chain, switching, setSwitching }: TChangeItem) => {
         openError(new Error('请等待切换完成'));
         return;
       }
+      const senderId = snapshot(senderState).id;
       try {
         setSwitching(true);
         openHoldMetaMask();
+
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
           params: [
@@ -38,6 +40,8 @@ const ChainItem = ({ chain, switching, setSwitching }: TChangeItem) => {
           ],
         });
         closeHoldMetaMask();
+
+        if (senderId !== snapshot(senderState).id) return;
         setSender((sender) => {
           sender.chainId = chain.chainId;
           sender.chainName = chain.chainName;
@@ -45,6 +49,8 @@ const ChainItem = ({ chain, switching, setSwitching }: TChangeItem) => {
         });
       } catch (error: unknown) {
         closeHoldMetaMask();
+
+        if (senderId !== snapshot(senderState).id) return;
         openError(error);
       }
       setSwitching(false);

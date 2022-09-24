@@ -11,9 +11,14 @@ const useHandleAdd = (
   closeAdd: () => void
 ) =>
   useCallback(() => {
+    const finshWeb3Add = () => {
+      closeHoldMetaMask();
+      setAdding(false);
+    };
     const web3Add = async () => {
       setAdding(true);
       let timeoutId;
+      const senderId = snapshot(senderState).id;
       try {
         timeoutId = setTimeout(() => {
           openHoldMetaMask();
@@ -35,14 +40,21 @@ const useHandleAdd = (
           ],
         });
         clearTimeout(timeoutId);
+        if (senderId !== snapshot(senderState).id) {
+          finshWeb3Add();
+          return;
+        }
         pushChain(chain);
         closeAdd();
       } catch (error: unknown) {
         clearTimeout(timeoutId);
+        if (senderId !== snapshot(senderState).id) {
+          finshWeb3Add();
+          return;
+        }
         openError(error);
       }
-      closeHoldMetaMask();
-      setAdding(false);
+      finshWeb3Add();
     };
     const sender = snapshot(senderState);
 

@@ -1,10 +1,11 @@
 import { ethers } from 'ethers';
+import { snapshot } from 'valtio';
 import {
   checkHasChain,
   pushChain,
   setChainDefaultNoance,
 } from '../../stores/chains';
-import { setSender } from '../../stores/sender';
+import { senderState, setSender } from '../../stores/sender';
 import { restTransactionNonce } from '../../stores/transaction';
 import { openError } from '../ErrorModal';
 
@@ -21,16 +22,20 @@ const providerOnNetwork = (provider: ethers.providers.JsonRpcProvider) => {
         chainName: newNetwork.name,
       });
     }
+    const senderId = snapshot(senderState).id;
     provider
       .send('eth_getTransactionCount', [
         window.ethereum.selectedAddress,
         'latest',
       ])
       .then((nonce) => {
+        if (senderId !== snapshot(senderState).id) return;
         setChainDefaultNoance(newNetwork.chainId, `${parseInt(nonce)}`);
       })
       .catch((error) => {
         openError(error);
+
+        if (senderId !== snapshot(senderState).id) return;
         setChainDefaultNoance(newNetwork.chainId, '', true);
       });
   });

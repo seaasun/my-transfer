@@ -1,49 +1,15 @@
-import {
-  Button,
-  Input,
-  Text,
-  Grid,
-  Spacer,
-  FormElement,
-} from '@nextui-org/react';
+import { Button, Text, Grid, Spacer } from '@nextui-org/react';
 import produce from 'immer';
-import { memo, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import getPivateKeyAndAddress from '../../utils/getPivateKeyAndAddress';
 import { setSender } from '../../stores/sender';
 import { openError } from '../ErrorModal';
 import goBack from '../../utils/goBack';
+import MonicInput from './MonicInput';
+import { TEST_PRIVATE_KEY, TEST_SENDER_ADDRESS } from '../../constants';
 
 type Monics = string[];
 
-type IMonicInput = {
-  index: number;
-  setMonic: (index: number, value: string) => void;
-  value: string;
-};
-
-const MonicInput = memo(({ index, value, setMonic }: IMonicInput) => {
-  const handleChange = useCallback(
-    (event: React.ChangeEvent<FormElement>) => {
-      setMonic(index, event.target.value);
-    },
-    [index, setMonic]
-  );
-
-  return (
-    <Grid xs={6}>
-      <Input
-        value={value}
-        onChange={handleChange}
-        aria-label="moni"
-        css={{ width: '100%' }}
-      />
-    </Grid>
-  );
-});
-
-const buttonCSS = {
-  width: '100%',
-};
 const Step2Memo = () => {
   const [monics, setMonics] = useState<Monics>(() => new Array(12).fill(''));
   const setMonic = useCallback((index: number, value: string) => {
@@ -69,9 +35,8 @@ const Step2Memo = () => {
 
   const handleTest = useCallback(async () => {
     setSender((sender) => {
-      sender.privateKey =
-        'c6f25f9f4bc1ee724dd08a53cc27a90918d3a88e9d892e9e44c4a123d8f8a8bf';
-      sender.address = '0xCeedB4f12A14CF86fEA9273f9E37ab6c4aB0d8d4';
+      sender.privateKey = TEST_PRIVATE_KEY;
+      sender.address = TEST_SENDER_ADDRESS;
       sender.isTest = true;
     });
   }, []);
@@ -94,7 +59,7 @@ const Step2Memo = () => {
         ))}
       </Grid.Container>
       <Spacer y={2} />
-      <Button onPress={handleNextStep} css={buttonCSS} size="lg">
+      <Button onPress={handleNextStep} css={{ width: '100%' }} size="lg">
         最后一步
       </Button>
       <Spacer y={1} />

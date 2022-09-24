@@ -30,6 +30,7 @@ const sendRpcTransaction = async ({ to, value, nonce }: SendTransaction) => {
   const walletSigner = wallet.connect(provider);
 
   result = await walletSigner.sendTransaction(tx);
+  if (sender.id !== snapshot(senderState).id) return '';
 
   result
     .wait()

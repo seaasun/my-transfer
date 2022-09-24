@@ -12,7 +12,6 @@ const Layout = ({ children }: TLayout) => {
         css={{
           display: 'flex',
           minHeight: '100vh',
-          // background: 'red'
         }}
       >
         <Box

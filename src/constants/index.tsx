@@ -1,0 +1,4 @@
+export const TEST_PRIVATE_KEY =
+  'c6f25f9f4bc1ee724dd08a53cc27a90918d3a88e9d892e9e44c4a123d8f8a8bf';
+
+export const TEST_SENDER_ADDRESS = '0xCeedB4f12A14CF86fEA9273f9E37ab6c4aB0d8d4';
