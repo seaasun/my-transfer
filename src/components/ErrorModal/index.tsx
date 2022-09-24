@@ -1,5 +1,5 @@
 import { Button, Modal, Text } from '@nextui-org/react';
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { proxy, useSnapshot } from 'valtio';
 
 type ErrorModalState = {
@@ -31,7 +31,7 @@ export const openError = (error: unknown) => {
   }
 };
 
-const ErrorModal = () => {
+const ErrorModal = memo(() => {
   const errorInfo = useSnapshot(errorModalState);
   const handleClose = useCallback(() => {
     setErrorModal((errorInfo) => {
@@ -52,6 +52,6 @@ const ErrorModal = () => {
       </Modal.Body>
     </Modal>
   );
-};
+});
 
 export default ErrorModal;

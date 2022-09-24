@@ -1,11 +1,12 @@
 import { NextUIProvider, Spacer } from '@nextui-org/react';
+import { memo } from 'react';
 import Box from '../Box';
 
 type TLayout = {
   children: React.ReactNode;
 };
 
-const Layout = ({ children }: TLayout) => {
+const Layout = memo(({ children }: TLayout) => {
   return (
     <NextUIProvider>
       <Box
@@ -48,6 +49,6 @@ const Layout = ({ children }: TLayout) => {
       </Box>
     </NextUIProvider>
   );
-};
+});
 
 export default Layout;

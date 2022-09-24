@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 
-import { useEffect } from 'react';
-import { useSnapshot } from 'valtio';
+import { useEffect, useRef } from 'react';
+import { snapshot, useSnapshot } from 'valtio';
 import {
   currentChainState,
   setChainDefaultNoance,
@@ -13,11 +13,14 @@ import { openError } from '../ErrorModal';
 
 const useEtherProvider = () => {
   const sender = useSnapshot(senderState);
-  const currentChain = useSnapshot(currentChainState);
+  const providerloading = useRef<Record<string, boolean>>({});
 
   useEffect(() => {
+    const currentChain = snapshot(currentChainState);
     const rpcProcess = async () => {
-      console.log('render');
+      const currentChainId = currentChain.current.chainId.toString();
+      if (providerloading.current[currentChainId]) return;
+      providerloading.current[currentChainId] = true;
       try {
         if (!currentChain.current.rpcUrls[0]) {
           throw new Error('没有rpcProvider');
@@ -36,11 +39,12 @@ const useEtherProvider = () => {
         openError(new Error('无法使用此网路, 请选择其他网路'));
         setChainDefaultNoance(sender.chainId, '', true);
       }
+      providerloading.current[currentChainId] = false;
     };
     if (!sender.isWeb3 && !currentChain.current.rpcProvider) {
       rpcProcess();
     }
-  }, [sender.isWeb3, sender.address, sender.chainId, currentChain]);
+  }, [sender.isWeb3, sender.address, sender.chainId]);
 };
 
 export default useEtherProvider;

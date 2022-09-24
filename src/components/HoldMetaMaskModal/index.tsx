@@ -1,5 +1,5 @@
 import { Button, Modal, Text } from '@nextui-org/react';
-import { useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { proxy, useSnapshot } from 'valtio';
 
 type HoldMetaMaskModalState = {
@@ -26,7 +26,7 @@ export const closeHoldMetaMask = () => {
   holdMetaMaskModalState.open = false;
 };
 
-const HoldMetaMaskModal = () => {
+const HoldMetaMaskModal = memo(() => {
   const holdMetaMaskInfo = useSnapshot(holdMetaMaskModalState);
   const handleClose = useCallback(() => {
     setHoldMetaMaskModal((holdMetaMaskInfo) => {
@@ -44,6 +44,6 @@ const HoldMetaMaskModal = () => {
       </Modal.Body>
     </Modal>
   );
-};
+});
 
 export default HoldMetaMaskModal;
