@@ -1,6 +1,6 @@
-import { Button, Modal, Text } from "@nextui-org/react";
-import { useCallback } from "react";
-import { proxy, useSnapshot } from "valtio";
+import { Button, Modal, Text } from '@nextui-org/react';
+import { useCallback } from 'react';
+import { proxy, useSnapshot } from 'valtio';
 
 type SuccessModalState = {
   open: boolean;

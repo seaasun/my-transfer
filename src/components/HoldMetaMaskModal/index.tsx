@@ -1,49 +1,49 @@
-import { Button, Modal, Text } from "@nextui-org/react"
-import { useCallback } from "react"
-import { proxy, useSnapshot } from "valtio"
+import { Button, Modal, Text } from '@nextui-org/react';
+import { useCallback } from 'react';
+import { proxy, useSnapshot } from 'valtio';
 
 type HoldMetaMaskModalState = {
-  open: boolean,
-  msg: string,
-}
+  open: boolean;
+  msg: string;
+};
 
 const holdMetaMaskModalState = proxy<HoldMetaMaskModalState>({
   open: false,
-  msg: ''
-})
+  msg: '',
+});
 
-const setHoldMetaMaskModal = ((fn: (holdMetaMaskInfo: HoldMetaMaskModalState)=> void) => {
-  fn(holdMetaMaskModalState)
-})
+const setHoldMetaMaskModal = (
+  fn: (holdMetaMaskInfo: HoldMetaMaskModalState) => void
+) => {
+  fn(holdMetaMaskModalState);
+};
 
 export const openHoldMetaMask = () => {
-  holdMetaMaskModalState.open = true
-}
+  holdMetaMaskModalState.open = true;
+};
 
 export const closeHoldMetaMask = () => {
-  holdMetaMaskModalState.open = false
-}
-
+  holdMetaMaskModalState.open = false;
+};
 
 const HoldMetaMaskModal = () => {
-  const holdMetaMaskInfo = useSnapshot(holdMetaMaskModalState)
+  const holdMetaMaskInfo = useSnapshot(holdMetaMaskModalState);
   const handleClose = useCallback(() => {
-    setHoldMetaMaskModal(holdMetaMaskInfo => {
-      holdMetaMaskInfo.open = false
-    })
-  }, [])
-  
-  return <Modal
-    open = {holdMetaMaskInfo.open}
-    onClose = {handleClose}
-  >
-    <Modal.Header>
-        <Text h1>请打卡MetaMask插件进行操作</Text>
-    </Modal.Header>
-    <Modal.Body>
-      <Button onPress = {handleClose}>关闭</Button>  
-    </Modal.Body>
-  </Modal>
-}
+    setHoldMetaMaskModal((holdMetaMaskInfo) => {
+      holdMetaMaskInfo.open = false;
+    });
+  }, []);
 
-export default HoldMetaMaskModal
+  return (
+    <Modal open={holdMetaMaskInfo.open} onClose={handleClose}>
+      <Modal.Header>
+        <Text h1>请打卡MetaMask插件进行操作</Text>
+      </Modal.Header>
+      <Modal.Body>
+        <Button onPress={handleClose}>关闭</Button>
+      </Modal.Body>
+    </Modal>
+  );
+};
+
+export default HoldMetaMaskModal;

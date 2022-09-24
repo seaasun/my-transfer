@@ -1,5 +1,5 @@
-import { styled } from "@nextui-org/react";
+import { styled } from '@nextui-org/react';
 
-const Box = styled('div')
+const Box = styled('div');
 
-export default Box
+export default Box;

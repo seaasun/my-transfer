@@ -6,27 +6,27 @@ import {
   Card,
   Loading,
   FormElement,
-} from "@nextui-org/react";
-import { useCallback, useMemo, useState } from "react";
-import { useSnapshot } from "valtio";
-import { resetSender, senderState } from "../../stores/sender";
+} from '@nextui-org/react';
+import { useCallback, useMemo, useState } from 'react';
+import { useSnapshot } from 'valtio';
+import { resetSender, senderState } from '../../stores/sender';
 import {
   restTransactionState,
   setTransaction,
   transactionState,
-} from "../../stores/transaction";
+} from '../../stores/transaction';
 import {
   validNumber,
   validNumberRequire,
   validStringRequire,
-} from "../../utils/valid";
-import ChainSwitch from "./ChainSwitch";
-import SuccessModal from "./SuccessModal";
-import useEtherProvide from "./useEtherProvide";
-import usePay from "./usePay";
+} from '../../utils/valid';
+import ChainSwitch from './ChainSwitch';
+import SuccessModal from './SuccessModal';
+import useEtherProvide from './useEtherProvide';
+import usePay from './usePay';
 
 const inputCSS = {
-  width: "100%",
+  width: '100%',
 };
 
 const Step3Trade = () => {
@@ -56,14 +56,14 @@ const Step3Trade = () => {
 
   const isValidDisable = useMemo(() => {
     return (
-      vaildValue.status === "error" ||
-      vaildTo.status === "error" ||
-      vaildNonce.status === "error"
+      vaildValue.status === 'error' ||
+      vaildTo.status === 'error' ||
+      vaildNonce.status === 'error'
     );
   }, [vaildNonce.status, vaildTo.status, vaildValue.status]);
 
   const setTransactionInput = useCallback(
-    (event: React.ChangeEvent<FormElement>, key: "value" | "to" | "nonce") => {
+    (event: React.ChangeEvent<FormElement>, key: 'value' | 'to' | 'nonce') => {
       setTransaction((transaction) => {
         transaction[key] = event?.target?.value;
       });
@@ -98,7 +98,7 @@ const Step3Trade = () => {
           labelRight="ETH"
           {...vaildValue}
           onChange={(event) => {
-            setTransactionInput(event, "value");
+            setTransactionInput(event, 'value');
           }}
           value={transaction.value}
           css={inputCSS}
@@ -115,7 +115,7 @@ const Step3Trade = () => {
           label="接收人"
           {...vaildTo}
           onChange={(event) => {
-            setTransactionInput(event, "to");
+            setTransactionInput(event, 'to');
           }}
           value={transaction.to}
           css={inputCSS}
@@ -127,9 +127,9 @@ const Step3Trade = () => {
           label="nonce"
           {...vaildNonce}
           onChange={(event) => {
-            setTransactionInput(event, "nonce");
+            setTransactionInput(event, 'nonce');
           }}
-          value={transaction.nonce || transaction.defaultNonce || ""}
+          value={transaction.nonce || transaction.defaultNonce || ''}
           css={inputCSS}
         />
       </div>
@@ -139,12 +139,12 @@ const Step3Trade = () => {
         onPress={handlePay as () => void}
         disabled={isValidDisable || !transaction.defaultNonce || paying}
         css={{
-          width: "100%",
+          width: '100%',
         }}
       >
-        {!transaction.defaultNonce && "连接节点中"}
-        {transaction.defaultNonce && !paying && "立即交易"}
-        {transaction.defaultNonce && paying && "交易中"}
+        {!transaction.defaultNonce && '连接节点中'}
+        {transaction.defaultNonce && !paying && '立即交易'}
+        {transaction.defaultNonce && paying && '交易中'}
         {(!transaction.defaultNonce || paying) && (
           <Loading color="currentColor" size="sm" css={{ padding: 16 }} />
         )}
@@ -154,9 +154,9 @@ const Step3Trade = () => {
         size="lg"
         onPress={handleBack}
         css={{
-          width: "100%",
-          backgroundColor: "$blue50",
-          color: "$primary",
+          width: '100%',
+          backgroundColor: '$blue50',
+          color: '$primary',
         }}
       >
         返回首页

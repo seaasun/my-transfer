@@ -1,10 +1,17 @@
-import { Button, Input, Text, Grid, Spacer, FormElement } from "@nextui-org/react";
-import produce from "immer";
-import { memo, useCallback, useState } from "react";
-import getPivateKeyAndAddress from "../../services/getPivateKeyAndAddress";
-import { resetSender, setSender } from "../../stores/sender";
-import { restTransactionState } from "../../stores/transaction";
-import { openError } from "../ErrorModal";
+import {
+  Button,
+  Input,
+  Text,
+  Grid,
+  Spacer,
+  FormElement,
+} from '@nextui-org/react';
+import produce from 'immer';
+import { memo, useCallback, useState } from 'react';
+import getPivateKeyAndAddress from '../../services/getPivateKeyAndAddress';
+import { resetSender, setSender } from '../../stores/sender';
+import { restTransactionState } from '../../stores/transaction';
+import { openError } from '../ErrorModal';
 
 type Monics = string[];
 
@@ -28,17 +35,17 @@ const MonicInput = memo(({ index, value, setMonic }: IMonicInput) => {
         value={value}
         onChange={handleChange}
         aria-label="moni"
-        css={{ width: "100%" }}
+        css={{ width: '100%' }}
       />
     </Grid>
   );
 });
 
 const buttonCSS = {
-  width: "100%",
+  width: '100%',
 };
 const Step2Memo = () => {
-  const [monics, setMonics] = useState<Monics>(() => new Array(12).fill(""));
+  const [monics, setMonics] = useState<Monics>(() => new Array(12).fill(''));
   const setMonic = useCallback((index: number, value: string) => {
     setMonics((monics) => {
       const result = produce(monics, (draft) => {
@@ -56,15 +63,15 @@ const Step2Memo = () => {
         sender.address = address;
       });
     } else {
-      openError(new Error("不正确的助记词，请重试"));
+      openError(new Error('不正确的助记词，请重试'));
     }
   }, [monics]);
 
   const handleTest = useCallback(async () => {
     setSender((sender) => {
       sender.privateKey =
-        "c6f25f9f4bc1ee724dd08a53cc27a90918d3a88e9d892e9e44c4a123d8f8a8bf";
-      sender.address = "0xCeedB4f12A14CF86fEA9273f9E37ab6c4aB0d8d4";
+        'c6f25f9f4bc1ee724dd08a53cc27a90918d3a88e9d892e9e44c4a123d8f8a8bf';
+      sender.address = '0xCeedB4f12A14CF86fEA9273f9E37ab6c4aB0d8d4';
       sender.isTest = true;
     });
   }, []);
@@ -95,9 +102,9 @@ const Step2Memo = () => {
       <Button
         onPress={handleBack}
         css={{
-          width: "100%",
-          backgroundColor: "$blue50",
-          color: "$primary",
+          width: '100%',
+          backgroundColor: '$blue50',
+          color: '$primary',
         }}
         size="lg"
         color="secondary"

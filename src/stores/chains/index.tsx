@@ -1,20 +1,20 @@
-import { proxy, snapshot } from "valtio";
-import { openError } from "../../components/ErrorModal";
+import { proxy, snapshot } from 'valtio';
+import { openError } from '../../components/ErrorModal';
 
 type NativeCurrency = {
-  name: string,
-  symbol: string,
-  decimals: number
-}
+  name: string;
+  symbol: string;
+  decimals: number;
+};
 
 export type Chain = {
-  chainId: number,
-  chainName: string,
-  rpcUrls: string[],
-  nativeCurrency: NativeCurrency
-}
+  chainId: number;
+  chainName: string;
+  rpcUrls: string[];
+  nativeCurrency: NativeCurrency;
+};
 
-export const chainStats = proxy<Chain[]> ([
+export const chainStats = proxy<Chain[]>([
   {
     chainId: 4,
     chainName: 'Rinkeby',
@@ -22,8 +22,8 @@ export const chainStats = proxy<Chain[]> ([
     nativeCurrency: {
       name: 'Rinkeby Ether',
       symbol: 'ETH',
-      decimals: 18
-    }
+      decimals: 18,
+    },
   },
   {
     chainId: 5,
@@ -32,27 +32,27 @@ export const chainStats = proxy<Chain[]> ([
     nativeCurrency: {
       name: 'goerli Ether',
       symbol: 'ETH',
-      decimals: 18
-    }
-  }
-])
+      decimals: 18,
+    },
+  },
+]);
 
 export type FlatChain = {
-  chainId: string,
-  chainName: string, 
-  rpcUrl: string,
-  symbol: string,
-  decimals: string,
-  currencyName: string,
-}
+  chainId: string;
+  chainName: string;
+  rpcUrl: string;
+  symbol: string;
+  decimals: string;
+  currencyName: string;
+};
 export const pushChain = (chain: FlatChain) => {
-  const chains = snapshot(chainStats)
-  const hasThisChain = chains.some(item => {
+  const chains = snapshot(chainStats);
+  const hasThisChain = chains.some((item) => {
     if (item.chainId === parseInt(chain.chainId)) {
-      return true
+      return true;
     }
-    return false
-  })
+    return false;
+  });
 
   if (!hasThisChain) {
     chainStats.push({
@@ -62,13 +62,12 @@ export const pushChain = (chain: FlatChain) => {
       nativeCurrency: {
         name: chain.currencyName,
         symbol: chain.symbol,
-        decimals: parseInt(chain.decimals)
-      }
-    })
-    return true
+        decimals: parseInt(chain.decimals),
+      },
+    });
+    return true;
   } else {
-    openError(new Error('已经添加'))
-    return false
+    openError(new Error('已经添加'));
+    return false;
   }
-
-}
+};

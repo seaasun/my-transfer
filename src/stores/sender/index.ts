@@ -1,29 +1,27 @@
-import { proxy } from "valtio/vanilla";
+import { proxy } from 'valtio/vanilla';
 
-export enum SENDER_STATUS{
+export enum SENDER_STATUS {
   HELLO = 'HELLO',
-  TRADE = 'TRADE'
+  TRADE = 'TRADE',
 }
 type Web3Chain = {
-  chainId: number,
-  endAddress: string,
-  name: string
-}
+  chainId: number;
+  endAddress: string;
+  name: string;
+};
 
 type Sender = {
-  monic: string,
-  privateKey: string,
-  address: string,
-  chainId: number,
-  chainName: string,
-  chainRPC: string,
-  status: SENDER_STATUS,
-  isTest: boolean,
-  isWeb3: boolean,
-  web3Chain: Web3Chain
-}
-
-
+  monic: string;
+  privateKey: string;
+  address: string;
+  chainId: number;
+  chainName: string;
+  chainRPC: string;
+  status: SENDER_STATUS;
+  isTest: boolean;
+  isWeb3: boolean;
+  web3Chain: Web3Chain;
+};
 
 const defaultValue: Sender = {
   monic: '',
@@ -38,18 +36,16 @@ const defaultValue: Sender = {
   web3Chain: {
     chainId: NaN,
     endAddress: '',
-    name: ''
-  }
-}
+    name: '',
+  },
+};
 
-export const senderState = proxy<Sender>(defaultValue)
-
+export const senderState = proxy<Sender>(defaultValue);
 
 export const setSender = (fn: (senderState: Sender) => void) => {
-  fn(senderState)
-}
+  fn(senderState);
+};
 
 export const resetSender = () => {
-  Object.assign(senderState, defaultValue)
-}
-
+  Object.assign(senderState, defaultValue);
+};

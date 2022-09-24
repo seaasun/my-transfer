@@ -1,21 +1,21 @@
-import { ethers } from "ethers";
-import { useEffect } from "react";
-import { useSnapshot } from "valtio";
-import { openError } from "../components/ErrorModal";
-import { senderState, setSender } from "../stores/sender";
-import { setTransaction } from "../stores/transaction";
+import { ethers } from 'ethers';
+import { useEffect } from 'react';
+import { useSnapshot } from 'valtio';
+import { openError } from '../components/ErrorModal';
+import { senderState, setSender } from '../stores/sender';
+import { setTransaction } from '../stores/transaction';
 
 const onNetwork = () => {
   if (!window.ethereum) return;
   setSender((sender) => {
     sender.web3Chain = {
       chainId: NaN,
-      endAddress: "",
-      name: "",
+      endAddress: '',
+      name: '',
     };
   });
-  const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-  provider.on("network", (newNetwork) => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum, 'any');
+  provider.on('network', (newNetwork) => {
     setSender((sender) => {
       sender.web3Chain = {
         chainId: newNetwork.chainId,
@@ -26,13 +26,13 @@ const onNetwork = () => {
       sender.chainName = newNetwork.name;
     });
     setTransaction((transaction) => {
-      transaction.nonce = "";
-      transaction.defaultNonce = "";
+      transaction.nonce = '';
+      transaction.defaultNonce = '';
     });
     provider
-      .send("eth_getTransactionCount", [
+      .send('eth_getTransactionCount', [
         window.ethereum.selectedAddress,
-        "latest",
+        'latest',
       ])
       .then((nonce) => {
         setTransaction((transaction) => {
@@ -47,8 +47,8 @@ const onNetwork = () => {
 
 const offNetwork = () => {
   if (!window.ethereum) return;
-  const provider = new ethers.providers.Web3Provider(window.ethereum, "any");
-  provider.off("network");
+  const provider = new ethers.providers.Web3Provider(window.ethereum, 'any');
+  provider.off('network');
 };
 
 const useOnSwitch = () => {

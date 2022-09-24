@@ -1,11 +1,11 @@
-import { ethers } from "ethers";
+import { ethers } from 'ethers';
 
-import { useEffect } from "react";
-import { useSnapshot } from "valtio";
-import { setEtherProvider } from "../../stores/etherProvider";
-import { resetSender, senderState } from "../../stores/sender";
-import { restTransactionState, setTransaction } from "../../stores/transaction";
-import { openError } from "../ErrorModal";
+import { useEffect } from 'react';
+import { useSnapshot } from 'valtio';
+import { setEtherProvider } from '../../stores/etherProvider';
+import { resetSender, senderState } from '../../stores/sender';
+import { restTransactionState, setTransaction } from '../../stores/transaction';
+import { openError } from '../ErrorModal';
 
 const useEtherProvider = () => {
   const sender = useSnapshot(senderState);
@@ -14,19 +14,19 @@ const useEtherProvider = () => {
       try {
         const provider = new ethers.providers.JsonRpcProvider(sender.chainRPC);
         setTransaction((transaction) => {
-          transaction.nonce = "";
-          transaction.defaultNonce = "";
+          transaction.nonce = '';
+          transaction.defaultNonce = '';
         });
         const nonce = await provider.getTransactionCount(
           sender.address,
-          "latest"
+          'latest'
         );
         setEtherProvider(provider);
         setTransaction((transaction) => {
           transaction.defaultNonce = `${nonce}`;
         });
       } catch (error: unknown) {
-        openError(new Error("发生错误,请重试"));
+        openError(new Error('发生错误,请重试'));
         resetSender();
         restTransactionState();
       }

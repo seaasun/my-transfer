@@ -1,11 +1,18 @@
-import { Button, FormElement, Input, Loading, Spacer, Text } from "@nextui-org/react";
-import { useCallback, useMemo, useState } from "react";
-import { FlatChain } from "../../../stores/chains";
-import { validNumberRequire, validStringRequire } from "../../../utils/valid";
-import useHandleAdd from "./useHandlAdd";
+import {
+  Button,
+  FormElement,
+  Input,
+  Loading,
+  Spacer,
+  Text,
+} from '@nextui-org/react';
+import { useCallback, useMemo, useState } from 'react';
+import { FlatChain } from '../../../stores/chains';
+import { validNumberRequire, validStringRequire } from '../../../utils/valid';
+import useHandleAdd from './useHandlAdd';
 
 const inputCSS = {
-  width: "100%",
+  width: '100%',
 };
 
 // https://stackoverflow.com/questions/67597665/how-to-change-network-in-metamask-using-react-js
@@ -15,12 +22,12 @@ type TChainAdd = {
 
 const ChainAdd = ({ closeAdd }: TChainAdd) => {
   const [chain, setChain] = useState<FlatChain>({
-    chainId: "56",
-    chainName: "Binance Smart Chain",
-    rpcUrl: "https://bsc-dataseed.binance.org/",
-    symbol: "BNB",
-    decimals: "18",
-    currencyName: "BNB",
+    chainId: '56',
+    chainName: 'Binance Smart Chain',
+    rpcUrl: 'https://bsc-dataseed.binance.org/',
+    symbol: 'BNB',
+    decimals: '18',
+    currencyName: 'BNB',
     // chainId: '5',
     // chainName: 'goerli',
     // rpcUrl: 'https://rpc.ankr.com/eth_goerli',
@@ -31,14 +38,17 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
   const [adding, setAdding] = useState(false);
   const handelAdd = useHandleAdd(chain, setAdding, closeAdd);
 
-  const setChainInput = useCallback((event: React.ChangeEvent<FormElement>, key: string) => {
-    setChain((chain) => {
-      return {
-        ...chain,
-        [key]: event?.target?.value,
-      };
-    });
-  }, []);
+  const setChainInput = useCallback(
+    (event: React.ChangeEvent<FormElement>, key: string) => {
+      setChain((chain) => {
+        return {
+          ...chain,
+          [key]: event?.target?.value,
+        };
+      });
+    },
+    []
+  );
 
   const validChainId = useMemo(() => {
     return validNumberRequire(chain.chainId);
@@ -61,12 +71,12 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
 
   const isAddDisabled = useMemo(() => {
     if (
-      validChainId.status !== "error" &&
-      validChainName.status !== "error" &&
-      validRpcUrl.status !== "error" &&
-      validSymol.status !== "error" &&
-      validDecimals.status !== "error" &&
-      validCurrencyName.status !== "error"
+      validChainId.status !== 'error' &&
+      validChainName.status !== 'error' &&
+      validRpcUrl.status !== 'error' &&
+      validSymol.status !== 'error' &&
+      validDecimals.status !== 'error' &&
+      validCurrencyName.status !== 'error'
     ) {
       return false;
     } else {
@@ -92,7 +102,7 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
         {...validChainId}
         css={inputCSS}
         onChange={(event) => {
-          setChainInput(event, "chainId");
+          setChainInput(event, 'chainId');
         }}
       />
       <Spacer y={1} />
@@ -103,7 +113,7 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
         {...validChainName}
         css={inputCSS}
         onChange={(event) => {
-          setChainInput(event, "chainName");
+          setChainInput(event, 'chainName');
         }}
       />
       <Spacer y={1} />
@@ -114,7 +124,7 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
         {...validRpcUrl}
         css={inputCSS}
         onChange={(event) => {
-          setChainInput(event, "rpcUrl");
+          setChainInput(event, 'rpcUrl');
         }}
       />
       <Spacer y={1} />
@@ -125,7 +135,7 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
         {...validSymol}
         css={inputCSS}
         onChange={(event) => {
-          setChainInput(event, "symbol");
+          setChainInput(event, 'symbol');
         }}
       />
       <Spacer y={1} />
@@ -136,7 +146,7 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
         {...validDecimals}
         css={inputCSS}
         onChange={(event) => {
-          setChainInput(event, "decimals");
+          setChainInput(event, 'decimals');
         }}
       />
       <Spacer y={1} />
@@ -147,28 +157,30 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
         {...validCurrencyName}
         css={inputCSS}
         onChange={(event) => {
-          setChainInput(event, "currencyName");
+          setChainInput(event, 'currencyName');
         }}
       />
 
       <Spacer y={2} />
-      <Button 
-        css={{width: '100%'}}
-        onPress={handelAdd} 
-        disabled={adding || isAddDisabled}>
+      <Button
+        css={{ width: '100%' }}
+        onPress={handelAdd}
+        disabled={adding || isAddDisabled}
+      >
         添加
         {adding && <Loading color="currentColor" size="sm" />}
       </Button>
       <Spacer y={1} />
-      <Button 
-        size='lg'
+      <Button
+        size="lg"
         onPress={closeAdd}
         css={{
           width: '100%',
           backgroundColor: '$blue50',
-          color: '$primary'
+          color: '$primary',
         }}
-      >取消
+      >
+        取消
       </Button>
     </div>
   );

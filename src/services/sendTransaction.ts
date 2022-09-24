@@ -1,13 +1,13 @@
-import { ethers } from "ethers";
-import { snapshot } from "valtio";
-import { openError } from "../components/ErrorModal";
+import { ethers } from 'ethers';
+import { snapshot } from 'valtio';
+import { openError } from '../components/ErrorModal';
 import {
   closeHoldMetaMask,
   openHoldMetaMask,
-} from "../components/HoldMetaMaskModal";
-import { etherProviderState } from "../stores/etherProvider";
-import { senderState } from "../stores/sender";
-import { setTransaction } from "../stores/transaction";
+} from '../components/HoldMetaMaskModal';
+import { etherProviderState } from '../stores/etherProvider';
+import { senderState } from '../stores/sender';
+import { setTransaction } from '../stores/transaction';
 
 type SendTransaction = {
   // provider: ethers.providers.JsonRpcProvider,
@@ -21,14 +21,14 @@ const sendRpcTransaction = async ({ to, value, nonce }: SendTransaction) => {
   const providerSnapshot = snapshot(etherProviderState);
   const provider = providerSnapshot.provider;
   if (!provider) {
-    throw new Error("provider 注册失败");
+    throw new Error('provider 注册失败');
   }
 
   let result;
 
   const feeData = await provider.getFeeData();
   if (!feeData.maxPriorityFeePerGas || !feeData.maxFeePerGas) {
-    throw new Error("获取Gas失败");
+    throw new Error('获取Gas失败');
   }
   const tx: ethers.utils.Deferrable<ethers.providers.TransactionRequest> = {
     from: sender.address,
@@ -38,7 +38,7 @@ const sendRpcTransaction = async ({ to, value, nonce }: SendTransaction) => {
     nonce: parseInt(nonce),
     maxPriorityFeePerGas: feeData.maxPriorityFeePerGas, // Recommended maxPriorityFeePerGas
     maxFeePerGas: feeData.maxFeePerGas, // Recommended maxFeePerGas
-    gasLimit: "21000", // basic transaction costs exactly 21000
+    gasLimit: '21000', // basic transaction costs exactly 21000
     // chainId: 42, // Ethereum network id
   };
 
@@ -48,7 +48,7 @@ const sendRpcTransaction = async ({ to, value, nonce }: SendTransaction) => {
   result = await walletSigner.sendTransaction(tx);
 
   provider
-    .getTransactionCount(sender.address, "latest")
+    .getTransactionCount(sender.address, 'latest')
     .then((nonce: number) => {
       setTransaction((transaction) => {
         transaction.defaultNonce = `${nonce}`;
@@ -80,7 +80,7 @@ const sendWeb3Transaction = async ({
   if (!feeData.maxPriorityFeePerGas) {
     return;
   }
-  const weiValue = ethers.utils.parseUnits(value.toString(), "ether");
+  const weiValue = ethers.utils.parseUnits(value.toString(), 'ether');
 
   const tx = {
     nonce: `0x${nonce}`, // ignored by MetaMask
@@ -88,21 +88,21 @@ const sendWeb3Transaction = async ({
     from: ethereum.selectedAddress, // must match user's active address.
     value: `0x${Number(weiValue).toString(16)}`, // Only required to send ether to the recipient from the initiating external account.
     // chainId: '0x3', // Used to prevent transaction reuse across blockchains. Auto-filled by MetaMask.
-    type: "0x2",
-    gasLimit: "21000",
+    type: '0x2',
+    gasLimit: '21000',
   };
 
   openHoldMetaMask();
   result = await ethereum.request({
-    method: "eth_sendTransaction",
+    method: 'eth_sendTransaction',
     params: [tx],
   });
   closeHoldMetaMask();
 
   ethereum
     .request({
-      method: "eth_getTransactionCount",
-      params: [ethereum.selectedAddress, "latest"],
+      method: 'eth_getTransactionCount',
+      params: [ethereum.selectedAddress, 'latest'],
     })
     .then((nonce: string) => {
       setTransaction((transaction) => {
@@ -127,7 +127,7 @@ const sendTransaction = async ({ to, value, nonce }: SendTransaction) => {
 
   // 重置nonce
   setTransaction((transaction) => {
-    transaction.nonce = "";
+    transaction.nonce = '';
     transaction.defaultNonce = `{${parseInt(transaction.defaultNonce) + 1}`;
   });
 
