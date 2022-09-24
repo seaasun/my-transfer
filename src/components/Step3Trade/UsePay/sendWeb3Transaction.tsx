@@ -1,6 +1,5 @@
 import { ethers } from 'ethers';
-import { snapshot } from 'valtio';
-import { senderState } from '../../../stores/sender';
+
 import { closeHoldMetaMask, openHoldMetaMask } from '../../HoldMetaMaskModal';
 import { SendTransaction } from './sendTransaction';
 
