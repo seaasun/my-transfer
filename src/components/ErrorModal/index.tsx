@@ -43,7 +43,7 @@ const ErrorModal = () => {
   return (
     <Modal closeButton open={errorInfo.open} onClose={handleClose}>
       <Modal.Header>
-        <Text h1>遇到点问题</Text>
+        <Text h2>遇到点问题</Text>
       </Modal.Header>
       <Modal.Body>
         <Text>{errorInfo.msg}</Text>

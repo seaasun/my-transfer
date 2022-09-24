@@ -24,7 +24,7 @@ const ModalItem = ({ token }: TModalItem) => {
   return (
     <Modal open={true} onClose={handleClose}>
       <Modal.Header>
-        <Text h1>交易已经完成！</Text>
+        <Text h2>交易已经完成！</Text>
       </Modal.Header>
       <Modal.Body>
         <Text>token信息:</Text>

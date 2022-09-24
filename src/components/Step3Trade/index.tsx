@@ -93,7 +93,7 @@ const Step3Trade = () => {
       <div>
         <Text>网路</Text>
         <Card isPressable isHoverable onPress={handleShowChain}>
-          <Card.Body>{sender.chainName}</Card.Body>
+          <Card.Body>{currentChain.chainName}</Card.Body>
         </Card>
       </div>
       <Spacer y={1} />

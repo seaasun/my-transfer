@@ -8,8 +8,6 @@ export type Sender = {
   privateKey: string;
   address: string;
   chainId: number;
-  chainName: string;
-  chainRPC: string;
   status: SENDER_STATUS;
   isTest: boolean;
   isWeb3: boolean;
@@ -20,8 +18,6 @@ const defaultValue: Sender = {
   privateKey: '',
   address: '',
   chainId: 4,
-  chainName: 'Rinkeby',
-  chainRPC: 'https://rpc.ankr.com/eth_rinkeby',
   status: SENDER_STATUS.HELLO,
   isTest: false,
   isWeb3: false,

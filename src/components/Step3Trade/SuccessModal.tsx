@@ -32,7 +32,7 @@ const SuccessModal = () => {
   return (
     <Modal open={successInfo.open} onClose={handleClose}>
       <Modal.Header>
-        <Text h1>已成功发送交易！</Text>
+        <Text h2>已成功发送交易！</Text>
       </Modal.Header>
       <Modal.Body>
         <Text>交易在进行中， 请稍后</Text>

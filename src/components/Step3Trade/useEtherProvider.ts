@@ -17,8 +17,14 @@ const useEtherProvider = () => {
 
   useEffect(() => {
     const rpcProcess = async () => {
+      console.log('render');
       try {
-        const provider = new ethers.providers.JsonRpcProvider(sender.chainRPC);
+        if (!currentChain.current.rpcUrls[0]) {
+          throw new Error('没有rpcProvider');
+        }
+        const provider = new ethers.providers.JsonRpcProvider(
+          currentChain.current.rpcUrls[0]
+        );
         restTransactionNonce();
         const nonce = await provider.getTransactionCount(
           sender.address,
@@ -34,13 +40,7 @@ const useEtherProvider = () => {
     if (!sender.isWeb3 && !currentChain.current.rpcProvider) {
       rpcProcess();
     }
-  }, [
-    sender.chainRPC,
-    sender.isWeb3,
-    sender.address,
-    sender.chainId,
-    currentChain,
-  ]);
+  }, [sender.isWeb3, sender.address, sender.chainId, currentChain]);
 };
 
 export default useEtherProvider;

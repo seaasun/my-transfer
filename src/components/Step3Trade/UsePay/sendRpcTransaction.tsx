@@ -35,9 +35,11 @@ const sendRpcTransaction = async ({ to, value, nonce }: SendTransaction) => {
   result
     .wait()
     .then(() => {
+      if (sender.id !== snapshot(senderState).id) return;
       openFinishModal(result.hash);
     })
     .catch((error) => {
+      if (sender.id !== snapshot(senderState).id) return;
       openError(error);
     });
 

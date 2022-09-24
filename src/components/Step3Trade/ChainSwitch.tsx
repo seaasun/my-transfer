@@ -1,4 +1,4 @@
-import { Button, Text, Link, Spacer, Card } from '@nextui-org/react';
+import { Button, Text, Spacer, Card } from '@nextui-org/react';
 import { useCallback, useState } from 'react';
 import { snapshot, useSnapshot } from 'valtio';
 import { Chain, chainStats } from '../../stores/chains';
@@ -17,8 +17,6 @@ const ChainItem = ({ chain, switching, setSwitching }: TChangeItem) => {
     const switchRPC = () => {
       setSender((sender) => {
         sender.chainId = chain.chainId;
-        sender.chainName = chain.chainName;
-        sender.chainRPC = chain.rpcUrls[0];
       });
     };
     const switchWeb3 = async () => {
@@ -44,8 +42,6 @@ const ChainItem = ({ chain, switching, setSwitching }: TChangeItem) => {
         if (senderId !== snapshot(senderState).id) return;
         setSender((sender) => {
           sender.chainId = chain.chainId;
-          sender.chainName = chain.chainName;
-          sender.chainRPC = '';
         });
       } catch (error: unknown) {
         closeHoldMetaMask();
@@ -61,7 +57,7 @@ const ChainItem = ({ chain, switching, setSwitching }: TChangeItem) => {
     } else {
       switchRPC();
     }
-  }, [chain.chainId, chain.chainName, chain.rpcUrls, setSwitching, switching]);
+  }, [chain.chainId, setSwitching, switching]);
 
   const sender = useSnapshot(senderState);
   return (

@@ -69,8 +69,6 @@ const useHandleAdd = (
       closeAdd();
       setSender((sender) => {
         sender.chainId = parseInt(chain.chainId);
-        sender.chainName = chain.chainName;
-        sender.chainRPC = chain.rpcUrl ?? '';
       });
     }
   }, [chain, closeAdd, setAdding]);

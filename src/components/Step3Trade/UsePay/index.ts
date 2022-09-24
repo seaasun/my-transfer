@@ -28,7 +28,7 @@ const usePay: () => [() => void, boolean] = () => {
         openError(error);
         closeHoldMetaMask();
       }
-
+      if (senderId !== snapshot(senderState).id) return;
       setPaying(false);
     };
     pay();

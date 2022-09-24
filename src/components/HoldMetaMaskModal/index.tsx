@@ -37,7 +37,7 @@ const HoldMetaMaskModal = () => {
   return (
     <Modal open={holdMetaMaskInfo.open} onClose={handleClose}>
       <Modal.Header>
-        <Text h1>请打卡MetaMask插件进行操作</Text>
+        <Text h2>请打卡MetaMask插件进行操作</Text>
       </Modal.Header>
       <Modal.Body>
         <Button onPress={handleClose}>关闭</Button>

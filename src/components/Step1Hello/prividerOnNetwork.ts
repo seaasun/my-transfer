@@ -13,7 +13,6 @@ const providerOnNetwork = (provider: ethers.providers.JsonRpcProvider) => {
   provider.on('network', (newNetwork) => {
     setSender((sender) => {
       sender.chainId = newNetwork.chainId;
-      sender.chainName = newNetwork.name;
     });
     restTransactionNonce();
     if (!checkHasChain(newNetwork.chainId)) {
