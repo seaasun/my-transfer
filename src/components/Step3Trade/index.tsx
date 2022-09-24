@@ -79,7 +79,6 @@ const Step3Trade = () => {
   if (showSwitchChain) {
     return <ChainSwitch setShowChain={setShowSwitchChain} />;
   }
-
   return (
     <div>
       <Text h1>现在，输入必要的信息</Text>
@@ -100,14 +99,20 @@ const Step3Trade = () => {
           onChange={(event) => {
             setTransactionInput(event, 'value');
           }}
-          value={transaction.value}
+          value={sender.isTest ? undefined : transaction.value}
+          placeholder={transaction.value}
           css={inputCSS}
           disabled={sender.isTest}
         />
       </div>
       <Spacer y={1} />
       <div>
-        <Input label="发送人" value={sender.address} disabled css={inputCSS} />
+        <Input
+          label="发送人"
+          placeholder={sender.address}
+          css={inputCSS}
+          disabled
+        />
       </div>
       <Spacer y={1} />
       <div>
