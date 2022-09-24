@@ -19,7 +19,7 @@ export type Chain = {
   rpcProvider?: ethers.providers.JsonRpcProvider;
 };
 
-const defaultValue: Chain[] = [
+const getDefaultValue: () => Chain[] = () => [
   {
     chainId: 4,
     chainName: 'Rinkeby',
@@ -46,11 +46,11 @@ const defaultValue: Chain[] = [
   },
 ];
 
-export const chainStats = proxy<Chain[]>(defaultValue);
+export const chainStats = proxy<Chain[]>(getDefaultValue());
 
 export const resetChains = () => {
   chainStats.splice(0, chainStats.length);
-  defaultValue.forEach((chain) => {
+  getDefaultValue().forEach((chain) => {
     chainStats.push(chain);
   });
 };
