@@ -1,4 +1,4 @@
-import { Button, Input, Loading, Spacer, Text } from "@nextui-org/react";
+import { Button, FormElement, Input, Loading, Spacer, Text } from "@nextui-org/react";
 import { useCallback, useMemo, useState } from "react";
 import { FlatChain } from "../../../stores/chains";
 import { validNumberRequire, validStringRequire } from "../../../utils/valid";
@@ -31,7 +31,7 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
   const [adding, setAdding] = useState(false);
   const handelAdd = useHandleAdd(chain, setAdding, closeAdd);
 
-  const setChainInput = useCallback((event: any, key: string) => {
+  const setChainInput = useCallback((event: React.ChangeEvent<FormElement>, key: string) => {
     setChain((chain) => {
       return {
         ...chain,

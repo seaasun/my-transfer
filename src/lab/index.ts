@@ -25,7 +25,7 @@ let memo = [
   "acquire",
 ];
 let memos: string = memo.join(" ");
-var monic: any =
+var monic: string =
   "peace mouse scrap chase order guess volume unit riot save reopen nation";
 export const createProvider = async () => {
   
@@ -42,9 +42,10 @@ export const createProvider3 = async () => {
   );
   const nonce = await provider.getTransactionCount(sendAddress, "latest");
   const feeData = await provider.getFeeData();
+  if (!feeData["maxPriorityFeePerGas"] || !feeData["maxFeePerGas"]) return
   const wallet = new ethers.Wallet(privateKey);
   const walletSigner = wallet.connect(provider);
-  const tx: any = {
+  const tx: ethers.providers.TransactionRequest = {
     // from: sendAddress,
     to: toAddress,
     value: ethers.utils.parseEther(sendTokenAmount),
@@ -68,13 +69,9 @@ export const createProvider2 = async () => {
 
   const wallet = new ethers.Wallet(privateKey);
   const walletSigner = wallet.connect(provider);
-  // const address = await walletSigner.getChainId()
-  // const balance = await walletSigner.getBalance()
-  // const balance: any = await provider.getBalance(toAddress)
-  // console.log(parseInt(balance))
 
-  const gasPriceCurrent: any = await provider.getGasPrice();
-  const gasPrice = ethers.utils.hexlify(parseInt(gasPriceCurrent));
+  const gasPriceCurrent = await provider.getGasPrice();
+  const gasPrice = ethers.utils.hexlify(gasPriceCurrent);
   const nonce = await provider.getTransactionCount(sendAddress, "latest");
 
   const tx = {

@@ -1,4 +1,4 @@
-import { Button, Input, Text, Grid, Spacer } from "@nextui-org/react";
+import { Button, Input, Text, Grid, Spacer, FormElement } from "@nextui-org/react";
 import produce from "immer";
 import { memo, useCallback, useState } from "react";
 import getPivateKeyAndAddress from "../../services/getPivateKeyAndAddress";
@@ -16,8 +16,8 @@ type IMonicInput = {
 
 const MonicInput = memo(({ index, value, setMonic }: IMonicInput) => {
   const handleChange = useCallback(
-    (e: any) => {
-      setMonic(index, e.target.value);
+    (event: React.ChangeEvent<FormElement>) => {
+      setMonic(index, event.target.value);
     },
     [index, setMonic]
   );
@@ -56,7 +56,7 @@ const Step2Memo = () => {
         sender.address = address;
       });
     } else {
-      openError(new Error('不正确的助记词，请重试'))
+      openError(new Error("不正确的助记词，请重试"));
     }
   }, [monics]);
 
@@ -68,10 +68,10 @@ const Step2Memo = () => {
       sender.isTest = true;
     });
   }, []);
-  const handleBack = useCallback(()=> {
-    resetSender()
-    restTransactionState()
-  }, [])
+  const handleBack = useCallback(() => {
+    resetSender();
+    restTransactionState();
+  }, []);
   return (
     <div>
       <Text h1>输入助记词</Text>
@@ -105,7 +105,13 @@ const Step2Memo = () => {
         返回首页
       </Button>
       <Spacer y={1} />
-      <Button onPress={handleTest} light auto color="primary" css={{paddingLeft: 0}}>
+      <Button
+        onPress={handleTest}
+        light
+        auto
+        color="primary"
+        css={{ paddingLeft: 0 }}
+      >
         使用测试账户（不可修改交易金额）
       </Button>
     </div>
