@@ -26,12 +26,11 @@ src
   |   |-ErrorModal      全局的错误弹窗
   |   |-...             略
   |- lab                测试、实验用的代码
-  |- services           非组件代码
   |- stroes             状态管理
   |   |- chains         网络
-  |   |- etherProvider  保存ether provider实例
+  |   |- web3Provider   保存ethereum创建的实例
   |   |- sender         发送人有关的信息
-  |   |- transaction    交易信息，入金额，收信人等
+  |   |- transaction    交易信息，数额，收信人等
   |- utils              工具
   |- App.tsx            APP入口
   |- index.tsx          入口

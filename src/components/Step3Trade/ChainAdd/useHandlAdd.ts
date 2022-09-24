@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { snapshot } from 'valtio';
-import { FlatChain, pushChain } from '../../../stores/chains';
+import { checkHasChain, FlatChain, pushChain } from '../../../stores/chains';
 import { senderState, setSender } from '../../../stores/sender';
 import { openError } from '../../ErrorModal';
 import { closeHoldMetaMask, openHoldMetaMask } from '../../HoldMetaMaskModal';
@@ -28,7 +28,7 @@ const useHandleAdd = (
               nativeCurrency: {
                 name: chain.currencyName,
                 symbol: chain.symbol,
-                decimals: parseInt(chain.decimals),
+                decimals: parseInt(chain.decimals ?? '18'),
               },
               rpcUrls: [chain.rpcUrl],
             },
@@ -45,18 +45,21 @@ const useHandleAdd = (
       setAdding(false);
     };
     const sender = snapshot(senderState);
+
     if (sender.isWeb3) {
       web3Add();
     } else {
-      const result = pushChain(chain);
-      if (result) {
-        closeAdd();
-        setSender((sender) => {
-          sender.chainId = parseInt(chain.chainId);
-          sender.chainName = chain.chainName;
-          sender.chainRPC = chain.rpcUrl;
-        });
+      if (checkHasChain(chain.chainId)) {
+        openError(new Error('已存在此chain'));
       }
+      pushChain(chain);
+
+      closeAdd();
+      setSender((sender) => {
+        sender.chainId = parseInt(chain.chainId);
+        sender.chainName = chain.chainName;
+        sender.chainRPC = chain.rpcUrl ?? '';
+      });
     }
   }, [chain, closeAdd, setAdding]);
 

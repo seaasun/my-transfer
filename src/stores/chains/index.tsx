@@ -1,6 +1,6 @@
-import { proxy, snapshot } from 'valtio';
+import { ethers } from 'ethers';
+import { proxy, ref, snapshot } from 'valtio';
 import { derive } from 'valtio/utils';
-import { openError } from '../../components/ErrorModal';
 import { Sender, senderState } from '../sender';
 
 type NativeCurrency = {
@@ -16,6 +16,7 @@ export type Chain = {
   nativeCurrency?: NativeCurrency;
   defaultNonce: string;
   defaultNonceFail: boolean;
+  rpcProvider?: ethers.providers.JsonRpcProvider;
 };
 
 const defaultValue: Chain[] = [
@@ -57,37 +58,36 @@ export const resetChains = () => {
 export type FlatChain = {
   chainId: string;
   chainName: string;
-  rpcUrl: string;
-  symbol: string;
-  decimals: string;
-  currencyName: string;
+  rpcUrl?: string;
+  symbol?: string;
+  decimals?: string;
+  currencyName?: string;
+};
+
+export const checkHasChain = (chainId: number | string) => {
+  if (typeof chainId === 'string') {
+    chainId = parseInt(chainId);
+  }
+  const chains = snapshot(chainStats);
+  return chains.some((item) => {
+    return item.chainId === chainId;
+  });
 };
 export const pushChain = (chain: FlatChain) => {
-  const chains = snapshot(chainStats);
-  const hasThisChain = chains.some((item) => {
-    if (item.chainId === parseInt(chain.chainId)) {
-      return true;
-    }
-    return false;
-  });
-
+  const hasThisChain = checkHasChain(chain.chainId);
   if (!hasThisChain) {
     chainStats.push({
       chainId: parseInt(chain.chainId),
       chainName: chain.chainName,
-      rpcUrls: [chain.rpcUrl],
+      rpcUrls: [chain.rpcUrl ?? ''],
       nativeCurrency: {
-        name: chain.currencyName,
-        symbol: chain.symbol,
-        decimals: parseInt(chain.decimals),
+        name: chain.currencyName ?? '',
+        symbol: chain.symbol ?? '',
+        decimals: parseInt(chain.decimals ?? '18'),
       },
       defaultNonce: '',
       defaultNonceFail: false,
     });
-    return true;
-  } else {
-    openError(new Error('已经添加'));
-    return false;
   }
 };
 
@@ -96,7 +96,6 @@ export const setChainDefaultNoance = (
   defaultNonce: string,
   defaultNonceFail: boolean = false
 ) => {
-  console.log(315, chainId, defaultNonce);
   const index = chainStats.findIndex(
     (chain: Chain) => chain.chainId === chainId
   );
@@ -104,8 +103,23 @@ export const setChainDefaultNoance = (
   if (index > -1) {
     chainStats[index].defaultNonce = defaultNonce;
     chainStats[index].defaultNonceFail = defaultNonceFail;
-    console.log(316);
+    return;
   }
+  throw new Error('找不到chain');
+};
+
+export const setChainRpcProvider = (
+  chainId: number,
+  provider: ethers.providers.JsonRpcProvider
+) => {
+  const index = chainStats.findIndex(
+    (chain: Chain) => chain.chainId === chainId
+  );
+  if (index > -1) {
+    chainStats[index].rpcProvider = ref(provider);
+    return;
+  }
+  throw new Error('找不到chain');
 };
 
 type CurrentChain = {
@@ -118,7 +132,7 @@ export const currentChainState = derive<CurrentChain, CurrentChain>({
     const index = chains.findIndex(
       (chain: Chain) => chain.chainId === sender.chainId
     );
-    console.log(3221, sender.chainId, chains[index]?.defaultNonce);
+
     if (index > -1) return chains[index];
     return {
       chainId: sender.chainId,

@@ -8,12 +8,10 @@ import {
 } from '@nextui-org/react';
 import produce from 'immer';
 import { memo, useCallback, useState } from 'react';
-import getPivateKeyAndAddress from '../../services/getPivateKeyAndAddress';
-import { resetChains } from '../../stores/chains';
-import { resetEthherProvider } from '../../stores/etherProvider';
-import { resetSender, setSender } from '../../stores/sender';
-import { restTransactionState } from '../../stores/transaction';
+import getPivateKeyAndAddress from '../../utils/getPivateKeyAndAddress';
+import { setSender } from '../../stores/sender';
 import { openError } from '../ErrorModal';
+import goBack from '../../utils/goBack';
 
 type Monics = string[];
 
@@ -78,10 +76,7 @@ const Step2Memo = () => {
     });
   }, []);
   const handleBack = useCallback(() => {
-    resetSender();
-    restTransactionState();
-    resetChains();
-    resetEthherProvider();
+    goBack();
   }, []);
   return (
     <div>

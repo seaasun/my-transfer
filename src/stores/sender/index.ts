@@ -4,12 +4,6 @@ export enum SENDER_STATUS {
   HELLO = 'HELLO',
   TRADE = 'TRADE',
 }
-type Web3Chain = {
-  chainId: number;
-  endAddress: string;
-  name: string;
-};
-
 export type Sender = {
   monic: string;
   privateKey: string;
@@ -20,7 +14,6 @@ export type Sender = {
   status: SENDER_STATUS;
   isTest: boolean;
   isWeb3: boolean;
-  web3Chain: Web3Chain;
 };
 
 const defaultValue: Sender = {
@@ -33,11 +26,6 @@ const defaultValue: Sender = {
   status: SENDER_STATUS.HELLO,
   isTest: false,
   isWeb3: false,
-  web3Chain: {
-    chainId: NaN,
-    endAddress: '',
-    name: '',
-  },
 };
 
 export const senderState = proxy<Sender>(defaultValue);

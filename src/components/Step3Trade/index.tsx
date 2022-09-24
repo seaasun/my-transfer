@@ -9,14 +9,10 @@ import {
 } from '@nextui-org/react';
 import { useCallback, useMemo, useState } from 'react';
 import { useSnapshot } from 'valtio';
-import { currentChainState, resetChains } from '../../stores/chains';
-import { resetEthherProvider } from '../../stores/etherProvider';
-import { resetSender, senderState } from '../../stores/sender';
-import {
-  restTransactionState,
-  setTransaction,
-  transactionState,
-} from '../../stores/transaction';
+import { currentChainState } from '../../stores/chains';
+import { senderState } from '../../stores/sender';
+import { setTransaction, transactionState } from '../../stores/transaction';
+import goBack from '../../utils/goBack';
 import {
   validNumber,
   validNumberRequire,
@@ -76,10 +72,7 @@ const Step3Trade = () => {
   );
 
   const handleBack = useCallback(() => {
-    resetSender();
-    restTransactionState();
-    resetChains();
-    resetEthherProvider();
+    goBack();
   }, []);
 
   const btnText = useMemo(() => {
@@ -175,7 +168,7 @@ const Step3Trade = () => {
           color: '$primary',
         }}
       >
-        返回首页，退出账户
+        返回首页，更换账户
       </Button>
       <SuccessModal />
     </div>

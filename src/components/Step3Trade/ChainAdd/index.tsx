@@ -63,16 +63,16 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
     return validStringRequire(chain.chainName);
   }, [chain.chainName]);
   const validRpcUrl = useMemo(() => {
-    return validStringRequire(chain.rpcUrl);
+    return validStringRequire(chain.rpcUrl ?? '');
   }, [chain.rpcUrl]);
   const validSymol = useMemo(() => {
-    return validStringRequire(chain.symbol);
+    return validStringRequire(chain.symbol ?? '');
   }, [chain.symbol]);
   const validDecimals = useMemo(() => {
-    return validNumberRequire(chain.decimals);
+    return validNumberRequire(chain.decimals ?? '');
   }, [chain.decimals]);
   const validCurrencyName = useMemo(() => {
-    return validStringRequire(chain.currencyName);
+    return validStringRequire(chain.currencyName ?? '');
   }, [chain.currencyName]);
 
   const isAddDisabled = useMemo(() => {

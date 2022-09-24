@@ -5,6 +5,8 @@ import { openError } from '../ErrorModal';
 import { ethers } from 'ethers';
 import { closeHoldMetaMask, openHoldMetaMask } from '../HoldMetaMaskModal';
 import Box from '../Box';
+import { setWeb3Provider } from '../../stores/web3Provider';
+import providerOnNetwork from './prividerOnNetwork';
 
 const btnCSS = {
   width: '100%',
@@ -24,11 +26,12 @@ const Step1Hello = () => {
       return;
     }
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const provider = new ethers.providers.Web3Provider(window.ethereum, 'any');
+    setWeb3Provider(provider);
     if (!window.ethereum.selectedAddress) {
       openHoldMetaMask();
     }
-
+    providerOnNetwork(provider);
     provider
       .send('eth_requestAccounts', [])
       .then(() => {

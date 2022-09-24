@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { snapshot } from 'valtio';
-import { etherProviderState } from '../../../stores/etherProvider';
+import { currentChainState } from '../../../stores/chains';
 import { senderState } from '../../../stores/sender';
 import { openError } from '../../ErrorModal';
 import { openFinishModal } from '../FinishModal';
@@ -8,8 +8,9 @@ import { SendTransaction } from './sendTransaction';
 
 const sendRpcTransaction = async ({ to, value, nonce }: SendTransaction) => {
   const sender = snapshot(senderState);
-  const providerSnapshot = snapshot(etherProviderState);
-  const provider = providerSnapshot.provider;
+  const currentChain = snapshot(currentChainState);
+
+  const provider = currentChain.current.rpcProvider;
   if (!provider) {
     throw new Error('provider 注册失败');
   }
