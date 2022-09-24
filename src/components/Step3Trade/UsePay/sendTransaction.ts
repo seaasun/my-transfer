@@ -1,8 +1,12 @@
 import { snapshot } from 'valtio';
 import { senderState } from '../../../stores/sender';
-import { setTransaction } from '../../../stores/transaction';
+import { setTransaction, transactionState } from '../../../stores/transaction';
 import sendWeb3Transaction from './sendWeb3Transaction';
 import sendRpcTransaction from './sendRpcTransaction';
+import {
+  currentChainState,
+  setChainDefaultNoance,
+} from '../../../stores/chains';
 
 export type SendTransaction = {
   to: string;
@@ -12,6 +16,8 @@ export type SendTransaction = {
 
 const sendTransaction = async ({ to, value, nonce }: SendTransaction) => {
   const sender = snapshot(senderState);
+  const currentChain = snapshot(currentChainState);
+  const transaction = snapshot(transactionState);
   let result;
   if (sender.isWeb3) {
     result = await sendWeb3Transaction({ to, value, nonce });
@@ -20,13 +26,17 @@ const sendTransaction = async ({ to, value, nonce }: SendTransaction) => {
   }
 
   // 重置nonce
+  if (
+    transaction.nonce === '' &&
+    transaction.nonce !== currentChain.current.defaultNonce
+  ) {
+    setChainDefaultNoance(
+      sender.chainId,
+      `${parseInt(currentChain.current.defaultNonce) + 1}`
+    );
+  }
+
   setTransaction((transaction) => {
-    if (
-      transaction.nonce === '' &&
-      transaction.nonce !== transaction.defaultNonce
-    ) {
-      transaction.defaultNonce = `${parseInt(transaction.defaultNonce) + 1}`;
-    }
     transaction.nonce = '';
   });
 

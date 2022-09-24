@@ -10,7 +10,7 @@ type Web3Chain = {
   name: string;
 };
 
-type Sender = {
+export type Sender = {
   monic: string;
   privateKey: string;
   address: string;

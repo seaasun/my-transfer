@@ -1,5 +1,7 @@
 import { proxy, snapshot } from 'valtio';
+import { derive } from 'valtio/utils';
 import { openError } from '../../components/ErrorModal';
+import { Sender, senderState } from '../sender';
 
 type NativeCurrency = {
   name: string;
@@ -11,7 +13,9 @@ export type Chain = {
   chainId: number;
   chainName: string;
   rpcUrls: string[];
-  nativeCurrency: NativeCurrency;
+  nativeCurrency?: NativeCurrency;
+  defaultNonce: string;
+  defaultNonceFail: boolean;
 };
 
 const defaultValue: Chain[] = [
@@ -24,6 +28,8 @@ const defaultValue: Chain[] = [
       symbol: 'ETH',
       decimals: 18,
     },
+    defaultNonce: '',
+    defaultNonceFail: false,
   },
   {
     chainId: 5,
@@ -34,6 +40,8 @@ const defaultValue: Chain[] = [
       symbol: 'ETH',
       decimals: 18,
     },
+    defaultNonce: '',
+    defaultNonceFail: false,
   },
 ];
 
@@ -73,6 +81,8 @@ export const pushChain = (chain: FlatChain) => {
         symbol: chain.symbol,
         decimals: parseInt(chain.decimals),
       },
+      defaultNonce: '',
+      defaultNonceFail: false,
     });
     return true;
   } else {
@@ -80,3 +90,42 @@ export const pushChain = (chain: FlatChain) => {
     return false;
   }
 };
+
+export const setChainDefaultNoance = (
+  chainId: number,
+  defaultNonce: string,
+  defaultNonceFail: boolean = false
+) => {
+  console.log(315, chainId, defaultNonce);
+  const index = chainStats.findIndex(
+    (chain: Chain) => chain.chainId === chainId
+  );
+
+  if (index > -1) {
+    chainStats[index].defaultNonce = defaultNonce;
+    chainStats[index].defaultNonceFail = defaultNonceFail;
+    console.log(316);
+  }
+};
+
+type CurrentChain = {
+  current: Chain;
+};
+export const currentChainState = derive<CurrentChain, CurrentChain>({
+  current: (get) => {
+    const chains: Chain[] = get(chainStats);
+    const sender: Sender = get(senderState);
+    const index = chains.findIndex(
+      (chain: Chain) => chain.chainId === sender.chainId
+    );
+    console.log(3221, sender.chainId, chains[index]?.defaultNonce);
+    if (index > -1) return chains[index];
+    return {
+      chainId: sender.chainId,
+      chainName: '',
+      rpcUrls: [],
+      defaultNonce: '',
+      defaultNonceFail: false,
+    };
+  },
+});

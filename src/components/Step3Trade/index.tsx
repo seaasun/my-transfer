@@ -9,7 +9,7 @@ import {
 } from '@nextui-org/react';
 import { useCallback, useMemo, useState } from 'react';
 import { useSnapshot } from 'valtio';
-import { resetChains } from '../../stores/chains';
+import { currentChainState, resetChains } from '../../stores/chains';
 import { resetEthherProvider } from '../../stores/etherProvider';
 import { resetSender, senderState } from '../../stores/sender';
 import {
@@ -36,6 +36,8 @@ const Step3Trade = () => {
   const sender = useSnapshot(senderState);
 
   const transaction = useSnapshot(transactionState);
+  const chainCurrent = useSnapshot(currentChainState);
+  const currentChain = chainCurrent.current;
 
   const [handlePay, paying] = usePay();
 
@@ -81,16 +83,15 @@ const Step3Trade = () => {
   }, []);
 
   const btnText = useMemo(() => {
-    if (transaction.defaultNonceFail) return '此线路不可用';
-    if (!transaction.defaultNonce) return '连接网路中';
+    if (currentChain.defaultNonceFail) return '此线路不可用';
+    if (!currentChain.defaultNonce) return '连接网路中';
     if (paying) return '交易中';
     return '立即交易';
-  }, [paying, transaction.defaultNonce, transaction.defaultNonceFail]);
+  }, [currentChain.defaultNonce, currentChain.defaultNonceFail, paying]);
 
   if (showSwitchChain) {
     return <ChainSwitch setShowChain={setShowSwitchChain} />;
   }
-  console.log(998, transaction.nonce, transaction.defaultNonce);
   return (
     <div>
       <Text h1>现在，输入必要的信息</Text>
@@ -146,7 +147,7 @@ const Step3Trade = () => {
           onChange={(event) => {
             setTransactionInput(event, 'nonce');
           }}
-          value={transaction.nonce || transaction.defaultNonce || ''}
+          value={transaction.nonce || currentChain.defaultNonce || ''}
           css={inputCSS}
         />
       </div>

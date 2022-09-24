@@ -7,6 +7,7 @@ import { setSuccessModal } from '../SuccessModal';
 
 import { openError } from '../../ErrorModal';
 import { closeHoldMetaMask } from '../../HoldMetaMaskModal';
+import { currentChainState } from '../../../stores/chains';
 
 const usePay: () => [() => void, boolean] = () => {
   const [paying, setPaying] = useState(false);
@@ -15,14 +16,14 @@ const usePay: () => [() => void, boolean] = () => {
     const pay = async () => {
       setPaying(true);
       const transaction = snapshot(transactionState);
+      const currentChain = snapshot(currentChainState);
 
       try {
         const result = await sendTransaction({
           value: parseFloat(transaction.value),
           to: transaction.to,
-          nonce: transaction.nonce || transaction.defaultNonce,
+          nonce: transaction.nonce || currentChain.current.defaultNonce,
         });
-        console.log(991, result);
         setSuccessModal((successInfo) => {
           successInfo.open = true;
           successInfo.result = result;

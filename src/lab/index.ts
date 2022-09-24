@@ -56,8 +56,6 @@ export const createProvider3 = async () => {
     gasLimit: '21000', // basic transaction costs exactly 21000
     // chainId: 42, // Ethereum network id
   };
-
-  const result = await walletSigner.sendTransaction(tx);
 };
 
 export const createProvider2 = async () => {

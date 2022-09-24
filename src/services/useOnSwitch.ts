@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import { useEffect } from 'react';
 import { useSnapshot } from 'valtio';
 import { openError } from '../components/ErrorModal';
+import { setChainDefaultNoance } from '../stores/chains';
 import { senderState, setSender } from '../stores/sender';
 import { restTransactionNonce, setTransaction } from '../stores/transaction';
 
@@ -32,15 +33,11 @@ const onNetwork = () => {
         'latest',
       ])
       .then((nonce) => {
-        setTransaction((transaction) => {
-          transaction.defaultNonce = `${parseInt(nonce)}`;
-        });
+        setChainDefaultNoance(newNetwork.chainId, `${parseInt(nonce)}`);
       })
       .catch((error) => {
         openError(error);
-        setTransaction((transaction) => {
-          transaction.defaultNonceFail = true;
-        });
+        setChainDefaultNoance(newNetwork.chainId, '', true);
       });
   });
 };
