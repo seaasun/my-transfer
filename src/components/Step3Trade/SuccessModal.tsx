@@ -1,6 +1,7 @@
 import { Button, Modal, Text } from '@nextui-org/react';
 import { useCallback } from 'react';
 import { proxy, useSnapshot } from 'valtio';
+import { senderState } from '../../stores/sender';
 
 type SuccessModalState = {
   open: boolean;
@@ -26,13 +27,21 @@ const SuccessModal = () => {
       successInfo.result = '';
     });
   }, []);
+  const sender = useSnapshot(senderState);
 
   return (
     <Modal open={successInfo.open} onClose={handleClose}>
       <Modal.Header>
-        <Text h1>祝贺您，交易成功！</Text>
+        <Text h1>已成功发送交易！</Text>
       </Modal.Header>
       <Modal.Body>
+        <Text>交易在进行中， 请稍后</Text>
+        <Text>
+          {sender.isWeb3
+            ? '请查看MateMask的交易提醒'
+            : '交易完成后您会收到提示'}
+        </Text>
+        <Text>token信息:</Text>
         <Text>{successInfo.result}</Text>
         <Button onPress={handleClose}>继续交易</Button>
       </Modal.Body>

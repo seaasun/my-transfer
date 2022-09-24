@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useSnapshot } from 'valtio';
 import { openError } from '../components/ErrorModal';
 import { senderState, setSender } from '../stores/sender';
-import { setTransaction } from '../stores/transaction';
+import { restTransactionNonce, setTransaction } from '../stores/transaction';
 
 const onNetwork = () => {
   if (!window.ethereum) return;
@@ -25,10 +25,7 @@ const onNetwork = () => {
       sender.chainId = newNetwork.chainId;
       sender.chainName = newNetwork.name;
     });
-    setTransaction((transaction) => {
-      transaction.nonce = '';
-      transaction.defaultNonce = '';
-    });
+    restTransactionNonce();
     provider
       .send('eth_getTransactionCount', [
         window.ethereum.selectedAddress,
@@ -41,6 +38,9 @@ const onNetwork = () => {
       })
       .catch((error) => {
         openError(error);
+        setTransaction((transaction) => {
+          transaction.defaultNonceFail = true;
+        });
       });
   });
 };

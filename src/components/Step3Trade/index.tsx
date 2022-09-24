@@ -9,6 +9,8 @@ import {
 } from '@nextui-org/react';
 import { useCallback, useMemo, useState } from 'react';
 import { useSnapshot } from 'valtio';
+import { resetChains } from '../../stores/chains';
+import { resetEthherProvider } from '../../stores/etherProvider';
 import { resetSender, senderState } from '../../stores/sender';
 import {
   restTransactionState,
@@ -22,15 +24,15 @@ import {
 } from '../../utils/valid';
 import ChainSwitch from './ChainSwitch';
 import SuccessModal from './SuccessModal';
-import useEtherProvide from './useEtherProvide';
-import usePay from './usePay';
+import useEtherProvider from './useEtherProvider';
+import usePay from './UsePay';
 
 const inputCSS = {
   width: '100%',
 };
 
 const Step3Trade = () => {
-  useEtherProvide();
+  useEtherProvider();
   const sender = useSnapshot(senderState);
 
   const transaction = useSnapshot(transactionState);
@@ -74,11 +76,21 @@ const Step3Trade = () => {
   const handleBack = useCallback(() => {
     resetSender();
     restTransactionState();
+    resetChains();
+    resetEthherProvider();
   }, []);
+
+  const btnText = useMemo(() => {
+    if (transaction.defaultNonceFail) return '此线路不可用';
+    if (!transaction.defaultNonce) return '连接网路中';
+    if (paying) return '交易中';
+    return '立即交易';
+  }, [paying, transaction.defaultNonce, transaction.defaultNonceFail]);
 
   if (showSwitchChain) {
     return <ChainSwitch setShowChain={setShowSwitchChain} />;
   }
+  console.log(998, transaction.nonce, transaction.defaultNonce);
   return (
     <div>
       <Text h1>现在，输入必要的信息</Text>
@@ -142,15 +154,13 @@ const Step3Trade = () => {
       <Button
         size="lg"
         onPress={handlePay as () => void}
-        disabled={isValidDisable || !transaction.defaultNonce || paying}
+        disabled={isValidDisable || btnText !== '立即交易'}
         css={{
           width: '100%',
         }}
       >
-        {!transaction.defaultNonce && '连接节点中'}
-        {transaction.defaultNonce && !paying && '立即交易'}
-        {transaction.defaultNonce && paying && '交易中'}
-        {(!transaction.defaultNonce || paying) && (
+        {btnText}
+        {(btnText === '交易中' || btnText === '连接网路中') && (
           <Loading color="currentColor" size="sm" css={{ padding: 16 }} />
         )}
       </Button>
@@ -164,7 +174,7 @@ const Step3Trade = () => {
           color: '$primary',
         }}
       >
-        返回首页
+        返回首页，退出账户
       </Button>
       <SuccessModal />
     </div>

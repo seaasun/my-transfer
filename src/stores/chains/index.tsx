@@ -14,7 +14,7 @@ export type Chain = {
   nativeCurrency: NativeCurrency;
 };
 
-export const chainStats = proxy<Chain[]>([
+const defaultValue: Chain[] = [
   {
     chainId: 4,
     chainName: 'Rinkeby',
@@ -35,7 +35,16 @@ export const chainStats = proxy<Chain[]>([
       decimals: 18,
     },
   },
-]);
+];
+
+export const chainStats = proxy<Chain[]>(defaultValue);
+
+export const resetChains = () => {
+  chainStats.splice(0, chainStats.length);
+  defaultValue.forEach((chain) => {
+    chainStats.push(chain);
+  });
+};
 
 export type FlatChain = {
   chainId: string;

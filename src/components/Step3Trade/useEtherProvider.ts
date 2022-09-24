@@ -3,8 +3,8 @@ import { ethers } from 'ethers';
 import { useEffect } from 'react';
 import { useSnapshot } from 'valtio';
 import { setEtherProvider } from '../../stores/etherProvider';
-import { resetSender, senderState } from '../../stores/sender';
-import { restTransactionState, setTransaction } from '../../stores/transaction';
+import { senderState } from '../../stores/sender';
+import { restTransactionNonce, setTransaction } from '../../stores/transaction';
 import { openError } from '../ErrorModal';
 
 const useEtherProvider = () => {
@@ -12,11 +12,9 @@ const useEtherProvider = () => {
   useEffect(() => {
     const rpcProcess = async () => {
       try {
+        setEtherProvider(undefined);
         const provider = new ethers.providers.JsonRpcProvider(sender.chainRPC);
-        setTransaction((transaction) => {
-          transaction.nonce = '';
-          transaction.defaultNonce = '';
-        });
+        restTransactionNonce();
         const nonce = await provider.getTransactionCount(
           sender.address,
           'latest'
@@ -26,9 +24,13 @@ const useEtherProvider = () => {
           transaction.defaultNonce = `${nonce}`;
         });
       } catch (error: unknown) {
-        openError(new Error('发生错误,请重试'));
-        resetSender();
-        restTransactionState();
+        // console.log(error);
+        openError(new Error('无法使用此网路, 请选择其他网路'));
+        setTransaction((transaction) => {
+          transaction.defaultNonceFail = true;
+        });
+        // resetSender();
+        // restTransactionState();
       }
     };
     if (!sender.isWeb3) {

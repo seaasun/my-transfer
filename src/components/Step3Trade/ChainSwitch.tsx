@@ -118,10 +118,15 @@ const ChainSwitch = ({ setShowChain }: TChainSwitch) => {
     <div>
       <Text h1>选择合适的网路</Text>
       <Text>
-        或者,
-        <Link css={{ cursor: 'pointer' }} onPress={openAdd}>
+        <Button
+          light
+          auto
+          onPress={openAdd}
+          color="primary"
+          css={{ paddingLeft: 0 }}
+        >
           添加新节点
-        </Link>
+        </Button>
       </Text>
       <Spacer y={2} />
 

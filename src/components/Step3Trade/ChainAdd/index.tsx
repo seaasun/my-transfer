@@ -22,12 +22,18 @@ type TChainAdd = {
 
 const ChainAdd = ({ closeAdd }: TChainAdd) => {
   const [chain, setChain] = useState<FlatChain>({
-    chainId: '56',
-    chainName: 'Binance Smart Chain',
-    rpcUrl: 'https://bsc-dataseed.binance.org/',
-    symbol: 'BNB',
-    decimals: '18',
-    currencyName: 'BNB',
+    chainId: '',
+    chainName: '',
+    rpcUrl: '',
+    symbol: '',
+    decimals: '',
+    currencyName: '',
+    // chainId: '2',
+    // chainName: 'ThaiChain',
+    // rpcUrl: 'https://node.expanse.tech',
+    // symbol: 'TCH',
+    // decimals: '18',
+    // currencyName: 'ThaiChain Ether',
     // chainId: '5',
     // chainName: 'goerli',
     // rpcUrl: 'https://rpc.ankr.com/eth_goerli',
@@ -98,8 +104,7 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
       <Input
         label="chain Id"
         value={chain.chainId}
-        placeholder="number"
-        {...validChainId}
+        helperText={validChainId.helperText}
         css={inputCSS}
         onChange={(event) => {
           setChainInput(event, 'chainId');
@@ -109,8 +114,7 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
       <Input
         label="chain Name"
         value={chain.chainName}
-        placeholder="string"
-        {...validChainName}
+        helperText={validChainName.helperText}
         css={inputCSS}
         onChange={(event) => {
           setChainInput(event, 'chainName');
@@ -120,8 +124,7 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
       <Input
         label="RPC URL"
         value={chain.rpcUrl}
-        placeholder="string"
-        {...validRpcUrl}
+        helperText={validRpcUrl.helperText}
         css={inputCSS}
         onChange={(event) => {
           setChainInput(event, 'rpcUrl');
@@ -131,8 +134,7 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
       <Input
         label="symbol"
         value={chain.symbol}
-        placeholder="string"
-        {...validSymol}
+        helperText={validSymol.helperText}
         css={inputCSS}
         onChange={(event) => {
           setChainInput(event, 'symbol');
@@ -142,8 +144,7 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
       <Input
         label="decimals"
         value={chain.decimals}
-        placeholder="number"
-        {...validDecimals}
+        helperText={validDecimals.helperText}
         css={inputCSS}
         onChange={(event) => {
           setChainInput(event, 'decimals');
@@ -153,8 +154,7 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
       <Input
         label="currency name"
         value={chain.currencyName}
-        placeholder="string"
-        {...validCurrencyName}
+        helperText={validCurrencyName.helperText}
         css={inputCSS}
         onChange={(event) => {
           setChainInput(event, 'currencyName');
@@ -167,7 +167,7 @@ const ChainAdd = ({ closeAdd }: TChainAdd) => {
         onPress={handelAdd}
         disabled={adding || isAddDisabled}
       >
-        添加
+        添加并切换
         {adding && <Loading color="currentColor" size="sm" />}
       </Button>
       <Spacer y={1} />

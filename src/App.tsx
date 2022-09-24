@@ -5,6 +5,7 @@ import Layout from './components/Layout';
 import Step1Hello from './components/Step1Hello';
 import Step2Memo from './components/Step2Memo';
 import Step3Trade from './components/Step3Trade';
+import FinishModal from './components/Step3Trade/FinishModal';
 import useOnSwitch from './services/useOnSwitch';
 import { senderState, SENDER_STATUS } from './stores/sender';
 
@@ -15,6 +16,7 @@ function App() {
     <Layout>
       <HoldMetaMaskModal />
       <ErrorModal />
+      <FinishModal />
       {sender.status === SENDER_STATUS.HELLO && <Step1Hello />}
       {sender.status === SENDER_STATUS.TRADE && !sender.address && (
         <Step2Memo />

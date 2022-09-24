@@ -9,6 +9,8 @@ import {
 import produce from 'immer';
 import { memo, useCallback, useState } from 'react';
 import getPivateKeyAndAddress from '../../services/getPivateKeyAndAddress';
+import { resetChains } from '../../stores/chains';
+import { resetEthherProvider } from '../../stores/etherProvider';
 import { resetSender, setSender } from '../../stores/sender';
 import { restTransactionState } from '../../stores/transaction';
 import { openError } from '../ErrorModal';
@@ -78,6 +80,8 @@ const Step2Memo = () => {
   const handleBack = useCallback(() => {
     resetSender();
     restTransactionState();
+    resetChains();
+    resetEthherProvider();
   }, []);
   return (
     <div>

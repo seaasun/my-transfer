@@ -1,12 +1,12 @@
 import { useCallback, useState } from 'react';
 import { snapshot } from 'valtio';
-import sendTransaction from '../../services/sendTransaction';
-import { transactionState } from '../../stores/transaction';
+import sendTransaction from './sendTransaction';
+import { transactionState } from '../../../stores/transaction';
 
-import { setSuccessModal } from './SuccessModal';
+import { setSuccessModal } from '../SuccessModal';
 
-import { openError } from '../ErrorModal';
-import { closeHoldMetaMask } from '../HoldMetaMaskModal';
+import { openError } from '../../ErrorModal';
+import { closeHoldMetaMask } from '../../HoldMetaMaskModal';
 
 const usePay: () => [() => void, boolean] = () => {
   const [paying, setPaying] = useState(false);
@@ -22,7 +22,7 @@ const usePay: () => [() => void, boolean] = () => {
           to: transaction.to,
           nonce: transaction.nonce || transaction.defaultNonce,
         });
-
+        console.log(991, result);
         setSuccessModal((successInfo) => {
           successInfo.open = true;
           successInfo.result = result;

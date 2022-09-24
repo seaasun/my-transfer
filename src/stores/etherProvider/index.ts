@@ -3,13 +3,15 @@ import { ethers } from 'ethers';
 
 type EtherProviderState = {
   provider?: ethers.providers.JsonRpcProvider;
-  loading: boolean;
 };
 
 export const etherProviderState = proxy<EtherProviderState>({
   provider: undefined,
-  loading: true,
 });
+
+export const resetEthherProvider = () => {
+  etherProviderState.provider = undefined;
+};
 
 export const setEtherProvider = (
   provider: ethers.providers.JsonRpcProvider | undefined
@@ -19,6 +21,4 @@ export const setEtherProvider = (
   } else {
     etherProviderState.provider = undefined;
   }
-
-  etherProviderState.loading = !provider;
 };

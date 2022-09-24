@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { snapshot } from 'valtio';
 import { FlatChain, pushChain } from '../../../stores/chains';
-import { senderState } from '../../../stores/sender';
+import { senderState, setSender } from '../../../stores/sender';
 import { openError } from '../../ErrorModal';
 import { closeHoldMetaMask, openHoldMetaMask } from '../../HoldMetaMaskModal';
 
@@ -51,6 +51,11 @@ const useHandleAdd = (
       const result = pushChain(chain);
       if (result) {
         closeAdd();
+        setSender((sender) => {
+          sender.chainId = parseInt(chain.chainId);
+          sender.chainName = chain.chainName;
+          sender.chainRPC = chain.rpcUrl;
+        });
       }
     }
   }, [chain, closeAdd, setAdding]);
